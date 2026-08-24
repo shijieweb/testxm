@@ -1,0 +1,30 @@
+{
+  "task_id": "task_5nmGr3TX46rMaOPohYzgVp3JqfpYrw5M",
+  "video_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-v2.0/task_5nmGr3TX46rMaOPohYzgVp3JqfpYrw5M.mp4",
+  "response": {
+    "id": "task_5nmGr3TX46rMaOPohYzgVp3JqfpYrw5M",
+    "video_id": "task_5nmGr3TX46rMaOPohYzgVp3JqfpYrw5M",
+    "task_id": "task_5nmGr3TX46rMaOPohYzgVp3JqfpYrw5M",
+    "object": "video",
+    "model": "agnes-video-v2.0",
+    "status": "completed",
+    "progress": 100,
+    "created_at": 1786456147,
+    "completed_at": 1786456301,
+    "seconds": "5.0",
+    "size": "1088x1920",
+    "metadata": {
+      "size_mapping": {
+        "adjusted": true,
+        "height": 1920,
+        "message": "Input size 1080x1920 was mapped to nearest preset 1080p/9:16 (1088x1920)",
+        "ratio": "9:16",
+        "requested_height": 1920,
+        "requested_width": 1080,
+        "resolution": "1080p",
+        "width": 1088
+      },
+      "url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-v2.0/task_5nmGr3TX46rMaOPohYzgVp3JqfpYrw5M.mp4"
+    }
+  }
+}

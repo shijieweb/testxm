@@ -1,0 +1,19 @@
+{
+  "version": "v8",
+  "timestamp": "2026-08-12 16:08:56",
+  "formula": "面部特写+场景 2K 强约束",
+  "shots_dir": "/workspace/short_drama/05后整顿职场/assets/shots_v8",
+  "results": {
+    "张经理面部特写": "True",
+    "场景_workstation": "True",
+    "场景_entrance": "True",
+    "S01": "{'desc': '苏晓关电脑拎包站起', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S01_苏晓关电脑.jpg'}",
+    "S02": "{'desc': '张经理出来叫住', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S02_张经理叫住.jpg'}",
+    "S03": "{'desc': '张经理居高临下施压', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S03_张经理施压.jpg'}",
+    "S04": "{'desc': '苏晓冷静直视', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S04_苏晓冷静直视.jpg'}",
+    "S05": "{'desc': '张经理脸色微变尴尬', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S05_张经理尴尬.jpg'}",
+    "S06": "{'desc': '苏晓转身大步走', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S06_苏晓转身走.jpg'}",
+    "S07": "{'desc': '苏晓推门夕阳微笑', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S07_苏晓推门微笑.jpg'}",
+    "S08": "{'desc': '空镜办公区远景', 'success': True, 'file': '/workspace/short_drama/05后整顿职场/assets/shots_v8/S08_空镜办公区.jpg'}"
+  }
+}

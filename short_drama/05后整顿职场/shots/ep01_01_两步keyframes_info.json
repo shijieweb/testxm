@@ -1,0 +1,28 @@
+{
+  "shot": "S01",
+  "scheme": "两步keyframes + ffmpeg拼接",
+  "shot_01A": {
+    "name": "合上电脑",
+    "first_frame_url": "https://platform-outputs.agnes-ai.space/images/t2i/28b8be298cc544cf8668d05942000e28.png",
+    "last_frame_url": "https://platform-outputs.agnes-ai.space/images/t2i/7d0ce89e3bb14d9fa914e076a8f6aadb.png",
+    "num_frames": 81,
+    "duration": "3s",
+    "video_path": "/workspace/short_drama/05后整顿职场/shots/ep01_01A_合电脑_keyframes.mp4",
+    "task_id": "task_T7jlmBRKi9ZEzX275S3zYgT68NTc4Oqw",
+    "has_dialogue": false
+  },
+  "shot_01B": {
+    "name": "起身走人",
+    "first_frame_url": "https://platform-outputs.agnes-ai.space/images/t2i/7d0ce89e3bb14d9fa914e076a8f6aadb.png",
+    "last_frame_url": "https://platform-outputs.agnes-ai.space/images/t2i/eccce405a6f64e189945b98b8fcc43b4.png",
+    "num_frames": 121,
+    "duration": "5s",
+    "video_path": "/workspace/short_drama/05后整顿职场/shots/ep01_01B_起身走人_keyframes.mp4",
+    "task_id": "task_UNqfsWyS578P22afIPOKjch9Ftnntl2y",
+    "has_dialogue": true,
+    "dialogue": "到点下班，天经地义",
+    "dialogue_type": "voiceover"
+  },
+  "final_video": "/workspace/short_drama/05后整顿职场/shots/ep01_01_完整_两步keyframes.mp4",
+  "total_duration": "8s (3s + 5s)"
+}

@@ -1,0 +1,23 @@
+{
+  "scenes": {
+    "office": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v4_scene_office_empty_1786547718.jpg",
+    "hallway": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v4_scene_hallway_empty_1786547778.jpg"
+  },
+  "results": {
+    "I": {
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v4_I_2char_clean_scene_1786547837.jpg",
+      "elapsed": 32.72978115081787
+    },
+    "J": {
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v4_J_1char_clean_scene_1786547876.jpg",
+      "elapsed": 22.593348264694214
+    },
+    "K": {
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v4_K_2char_action_detail_1786547917.jpg",
+      "elapsed": 27.05399489402771
+    }
+  }
+}

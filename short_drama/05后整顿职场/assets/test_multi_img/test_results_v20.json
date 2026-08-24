@@ -1,0 +1,155 @@
+{
+  "version": "v20",
+  "date": "2026-08-13",
+  "description": "甩文件场景修复——场景图含桌子道具",
+  "results": [
+    {
+      "id": "L1",
+      "name": "甩文件(场景含桌子)",
+      "issue_ref": "经验#007 场景凭空生成道具",
+      "fix_strategy": "场景图prompt加入桌子和文件夹描述",
+      "checks": {
+        "female_face": "女性面部不西化",
+        "male_face": "男性面部圆脸/眼镜/法令纹",
+        "female_clothing": "浅米色衬衫+深灰裙+白鞋",
+        "male_clothing": "深蓝短袖+黑裤+黑皮鞋",
+        "action": "女性A拍文件夹在桌上",
+        "scene_match": "场景含桌子(非凭空生成)",
+        "no_extra_objects": "无多余物体"
+      },
+      "steps": {
+        "duo": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_duo_side_1786604234.jpg",
+          "prompt": "",
+          "elapsed": 0,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "783KB"
+          },
+          "mode": "existing"
+        },
+        "scene": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_1786605489470.jpg",
+          "prompt": "办公走廊转角处的开放式办公区，有一张浅色木质办公桌，桌上有黑色文件夹和散落的文件纸张，两侧玻璃隔断，浅灰色地毯地面，天花板LED灯带，无人，电影级构图，高细节写实摄影风格。",
+          "elapsed": 38.96203589439392,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1434KB"
+          },
+          "mode": "generate"
+        },
+        "shot": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_1786605534368.jpg",
+          "prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张女性角色A将文件夹用力拍在办公桌上的画面，女性角色A站立身体前倾动作有力，男性角色B在旁边震惊地看着，保留角色的面部特征和服装穿着，使用自然室内光照和电影级写实构图。",
+          "elapsed": 40.241976261138916,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1172KB"
+          }
+        }
+      },
+      "success": true
+    },
+    {
+      "id": "L2",
+      "name": "甩文件(场景含桌子+明确主语)",
+      "issue_ref": "经验#006+#007 动作主语+场景道具",
+      "fix_strategy": "场景图含桌子+prompt多次强调女性角色A执行动作",
+      "checks": {
+        "female_face": "女性面部不西化",
+        "male_face": "男性面部圆脸/眼镜/法令纹",
+        "female_clothing": "浅米色衬衫+深灰裙+白鞋",
+        "male_clothing": "深蓝短袖+黑裤+黑皮鞋",
+        "action": "女性A(不是男性B)拍文件夹在桌上",
+        "scene_match": "场景含桌子(非凭空生成)",
+        "no_extra_objects": "无多余物体"
+      },
+      "steps": {
+        "duo": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_duo_side_1786604234.jpg",
+          "prompt": "(复用已有图)",
+          "elapsed": 0,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "783KB"
+          },
+          "mode": "existing"
+        },
+        "scene": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_L2_1786605833460.jpg",
+          "prompt": "办公走廊转角处的开放式办公区，有一张浅色木质办公桌，桌上有黑色文件夹和散落的文件纸张，两侧玻璃隔断，浅灰色地毯地面，天花板LED灯带，无人，电影级构图，高细节写实摄影风格。",
+          "elapsed": 12.212269067764282,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1400KB"
+          },
+          "mode": "generate"
+        },
+        "shot": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_L2_1786605856457.jpg",
+          "prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张女性角色A将文件夹用力拍在办公桌上的画面，女性角色A站立身体前倾右手用力拍下文件夹，男性角色B站在旁边震惊地看着女性角色A，保留角色的面部特征和服装穿着，使用自然室内光照和电影级写实构图。",
+          "elapsed": 16.525054931640625,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1100KB"
+          }
+        }
+      },
+      "success": true
+    },
+    {
+      "id": "L3",
+      "name": "走开(背影双人图间距强化)",
+      "issue_ref": "经验#011 背影双人图间距不稳定",
+      "fix_strategy": "prompt中明确角色间距",
+      "checks": {
+        "female_back": "女性背对镜头大步走",
+        "male_reach": "男性在后伸手叫住",
+        "distance": "两人前后距离明显(非并肩)",
+        "clothing": "服装一致性",
+        "scene": "走廊纵深场景"
+      },
+      "steps": {
+        "duo": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_1786605758560.jpg",
+          "prompt": "将第一张图作为角色A，第二张图作为角色B，生成一张两个角色背对镜头的全身照，角色A在前方两米处大步走，角色B在后方伸手想要叫住，两人前后距离明显，保留两个角色的服装穿着和发型，纯白色背景无任何多余元素，使用均匀柔光照明和写实摄影风格。",
+          "elapsed": 21.168787479400635,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "747KB"
+          },
+          "mode": "generate"
+        },
+        "scene": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_scene_hallway_back_1786604383.jpg",
+          "prompt": "",
+          "elapsed": 0,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1487KB"
+          },
+          "mode": "existing"
+        },
+        "shot": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_1786605791174.jpg",
+          "prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张角色A背对镜头在走廊中大步向前走的画面，角色A在前方距离角色B两米以上，角色B在身后伸手想要叫住她，保留角色的服装穿着和发型，使用自然室内光照和电影级写实构图。",
+          "elapsed": 23.601402759552002,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1156KB"
+          }
+        }
+      },
+      "success": true
+    }
+  ]
+}

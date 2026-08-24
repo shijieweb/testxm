@@ -1,0 +1,21 @@
+{
+  "E": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v3_E_2char_in_scene_1786546854.jpg",
+    "elapsed": 28.042508602142334
+  },
+  "F": {
+    "success": false,
+    "error": "HTTPSConnectionPool(host='apihub.agnes-ai.cn', port=443): Read timed out. (read timeout=300)"
+  },
+  "G": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v3_G_2char_minimal_1786547198.jpg",
+    "elapsed": 27.983254432678223
+  },
+  "H": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v3_H_char_2scenes_1786547238.jpg",
+    "elapsed": 29.352924585342407
+  }
+}

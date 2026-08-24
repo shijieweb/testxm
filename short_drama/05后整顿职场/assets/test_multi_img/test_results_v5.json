@@ -1,0 +1,26 @@
+{
+  "L": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v5_L_纯白基础_1786549110.jpg",
+    "url": "https://platform-outputs.agnes-ai.space/images/i2i/task_fMKVuR1IWCXNoFklAE8QzWVwKgOIURik/output.png",
+    "revised_prompt": "",
+    "elapsed": 28.376020669937134,
+    "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。将角色A和角色B放入第三张图的走廊场景中，角色B伸手拦住角色A的去路。保留两个角色的身份特征，使用自然室内光照和电影级写实构图。"
+  },
+  "M": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v5_M_纯白极简_1786549152.jpg",
+    "url": "https://platform-outputs.agnes-ai.space/images/i2i/task_oBzEZ8YCkV7NP9m5X7eSOiKDitBc7Fab/output.png",
+    "revised_prompt": "",
+    "elapsed": 24.375067472457886,
+    "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考，生成角色B在走廊中伸手拦住角色A的画面，保留角色身份和场景外形，使用自然光照和电影级构图。"
+  },
+  "N": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v5_N_纯红单角色_1786549192.jpg",
+    "url": "https://platform-outputs.agnes-ai.space/images/i2i/task_mGE1JCNq7UzdxeotDYJjDxUVxFLHpngo/output.png",
+    "revised_prompt": "",
+    "elapsed": 21.717256784439087,
+    "prompt": "将第一张图作为角色参考，第二张图作为场景参考。将角色放入第二张图的办公工位场景中，坐在工位前使用笔记本电脑。保留角色身份特征，使用自然室内光照和电影级写实构图。"
+  }
+}

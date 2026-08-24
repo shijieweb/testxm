@@ -1,0 +1,10 @@
+{
+  "shot_id": "04",
+  "name": "苏晓拿出手机",
+  "duration_sec": 10,
+  "num_frames": 241,
+  "scene_image_url": "https://platform-outputs.agnes-ai.space/images/t2i/57fff88c27004287806f0b1945510cb2.png",
+  "video_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-v2.0/task_No4IOS3H1GhxgmvgYsIGKJsT5ML63P3z.mp4",
+  "output_path": "/workspace/short_drama/05后整顿职场/shots/ep01_04_苏晓拿出手机_v1.mp4",
+  "success": true
+}

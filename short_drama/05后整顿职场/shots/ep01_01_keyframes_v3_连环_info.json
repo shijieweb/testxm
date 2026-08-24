@@ -1,0 +1,22 @@
+{
+  "shot": "S01",
+  "mode": "keyframes",
+  "version": "v3_连环生成",
+  "scheme": "连环生成：角色参考图→首帧→尾帧（EXP-连环-001）",
+  "first_frame": {
+    "url": "https://platform-outputs.agnes-ai.space/images/t2i/28b8be298cc544cf8668d05942000e28.png",
+    "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01_首帧_连环v3.jpg",
+    "ref_image": "/workspace/short_drama/05后整顿职场/assets/characters/苏晓_三视图_新版.jpg",
+    "description": "苏晓坐着看电脑，电脑打开亮屏，帆布包挂在椅子侧面（不在肩上）",
+    "prompt": "[SCENE REFERENCE]: 年轻女生苏晓，鹅蛋脸，杏眼明亮，鼻梁秀气，唇形饱满，肤色白皙，黑长直齐肩发发尾微内扣，浅米色通勤衬衫，高腰深灰西装裤，小白鞋，银色细款手表，坐在工位椅上，侧面中景构图，身体正面对着工位桌面，双手放在笔记本电脑键盘上。笔记本电脑屏幕打开，亮屏状态，屏幕发出冷白光芒。帆布单肩包挂在椅子侧面扶手上，包垂在椅子旁边，不在身上。苏晓目光看向笔记本电脑屏幕，表情平静专注。现代开放式办公区格子间工位，白色工位隔板，桌面有笔记本电脑和文件，傍晚夕阳从窗外斜射进来，冷白室内光与暖色夕阳形成对比，背景有同事工位但模糊虚化。现代都市写实风格，明亮办公室冷白自然光，均匀柔和室内打光，真实皮肤肌理，清晰自然面部细节，无过度磨皮，9:16竖屏构图，人物主体完整不裁切，画面无多余文字水印，生活化职场场景质感。this is the starting frame, initial state before action"
+  },
+  "last_frame": {
+    "url": "https://platform-outputs.agnes-ai.space/images/t2i/0d4196a34cca4d9486d04048a036b902.png",
+    "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01_尾帧_连环v3.jpg",
+    "ref_image": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01_首帧_连环v3.jpg",
+    "description": "苏晓站起，电脑合上，帆布包挎肩上（用首帧作参考，锁定机位场景）",
+    "prompt": "Based on the reference image, keep the same scene layout, camera angle, lighting direction, and background. Only the following changes occur: - Character pose: from seated position → to standing position, ready to leave. - Laptop: from open and glowing on desk → to closed, lid shut, screen not visible,   closed laptop lying flat on desk. - Canvas bag: from hanging on chair side → to slung on shoulder, strap across shoulder. - Hands: from resting on keyboard → to free at sides. - Body direction: from facing desk forward → to turned sideways preparing to walk away. The laptop remains on the desk throughout, only the screen lid closes. The desk, chair, background, and lighting remain unchanged. 年轻女生苏晓，鹅蛋脸，杏眼明亮，鼻梁秀气，唇形饱满，肤色白皙，黑长直齐肩发发尾微内扣，浅米色通勤衬衫，高腰深灰西装裤，小白鞋，银色细款手表，已从座位上站起来，身体侧向，微微前倾，准备转身离开。表情平静自信，眼神坚定看向前方。现代都市写实风格，明亮办公室冷白自然光，均匀柔和室内打光，真实皮肤肌理，清晰自然面部细节，无过度磨皮，9:16竖屏构图，人物主体完整不裁切，画面无多余文字水印，生活化职场场景质感。this is the ending frame, final state after action completed"
+  },
+  "status": "等待老板确认首尾帧",
+  "next_step": "确认后用这两帧URL做keyframes模式视频生成"
+}

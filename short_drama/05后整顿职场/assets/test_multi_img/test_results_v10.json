@@ -1,0 +1,79 @@
+{
+  "version": "v10",
+  "timestamp": "2026-08-12 18:46:29",
+  "formula": "官方结构对照测试",
+  "prompts": {
+    "极简": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。使用自然室内光照和电影级写实构图。",
+    "身份保留": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。保留两个角色的面部特征和身份，使用自然室内光照和电影级写实构图。",
+    "身份保留+负面词": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。保留两个角色的面部特征和身份，使用自然室内光照和电影级写实构图。负面提示词：面部变形，五官扭曲，面部模糊，角色变脸，身份切换，西化面孔，高鼻深目，混血面孔"
+  },
+  "reference_images": {
+    "苏晓_面部特写": "/workspace/short_drama/05后整顿职场/assets/characters/苏晓_面部特写_纯白.jpg",
+    "张经理_面部特写": "/workspace/short_drama/05后整顿职场/assets/characters/张经理_面部特写_纯白.jpg",
+    "苏晓_三视图": "/workspace/short_drama/05后整顿职场/assets/characters/苏晓_三视图_纯白_1786548574.jpg",
+    "张经理_三视图": "/workspace/short_drama/05后整顿职场/assets/characters/张经理_三视图_纯白_1786548749.jpg",
+    "走廊场景": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v4_scene_hallway_empty_1786547778.jpg"
+  },
+  "results": [
+    {
+      "test": "A1",
+      "desc": "面部特写×2 + 官方极简prompt",
+      "ref_type": "面部特写×2",
+      "prompt_type": "极简",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v10_A1_特写_极简_1786560225.jpg",
+      "elapsed": 25.096381902694702,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "A2",
+      "desc": "面部特写×2 + 官方+身份保留",
+      "ref_type": "面部特写×2",
+      "prompt_type": "身份保留",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v10_A2_特写_身份保留_1786560256.jpg",
+      "elapsed": 24.333574771881104,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。保留两个角色的面部特征和身份，使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "A3",
+      "desc": "面部特写×2 + 官方+身份保留+负面词",
+      "ref_type": "面部特写×2",
+      "prompt_type": "身份保留+负面词",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v10_A3_特写_身份负面_1786560291.jpg",
+      "elapsed": 28.255192041397095,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。保留两个角色的面部特征和身份，使用自然室内光照和电影级写实构图。负面提示词：面部变形，五官扭曲，面部模糊，角色变脸，身份切换，西化面孔，高鼻深目，混血面孔"
+    },
+    {
+      "test": "B1",
+      "desc": "三视图×2 + 官方极简prompt",
+      "ref_type": "三视图×2",
+      "prompt_type": "极简",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v10_B1_三视图_极简_1786560322.jpg",
+      "elapsed": 25.675206899642944,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "B2",
+      "desc": "三视图×2 + 官方+身份保留",
+      "ref_type": "三视图×2",
+      "prompt_type": "身份保留",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v10_B2_三视图_身份保留_1786560356.jpg",
+      "elapsed": 27.271889209747314,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。保留两个角色的面部特征和身份，使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "C2",
+      "desc": "面部特写+三视图 + 官方+身份保留",
+      "ref_type": "面部特写+三视图",
+      "prompt_type": "身份保留",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v10_C2_混合_身份保留_1786560389.jpg",
+      "elapsed": 25.959251880645752,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。保留两个角色的面部特征和身份，使用自然室内光照和电影级写实构图。"
+    }
+  ]
+}

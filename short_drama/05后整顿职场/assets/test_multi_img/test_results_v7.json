@@ -1,0 +1,28 @@
+{
+  "version": "v7",
+  "timestamp": "2026-08-12 15:56:33",
+  "face_closeup": "/workspace/short_drama/05后整顿职场/assets/characters/苏晓_面部特写_纯白.jpg",
+  "tests": [
+    {
+      "test": "R",
+      "desc": "面部特写+场景 2K 强约束",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v7_R_面部特写+场景_2K_1786550136.jpg",
+      "elapsed": 22.423163652420044
+    },
+    {
+      "test": "S",
+      "desc": "三视图+场景 2K 强约束（基准）",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v7_S_三视图+场景_2K_1786550170.jpg",
+      "elapsed": 21.444146156311035
+    },
+    {
+      "test": "T",
+      "desc": "面部特写+场景 1K 强约束",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v7_T_面部特写+场景_1K_1786550193.jpg",
+      "elapsed": 15.739336729049683
+    }
+  ]
+}

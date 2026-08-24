@@ -1,0 +1,48 @@
+{
+  "version": "v17",
+  "timestamp": "2026-08-13 06:11:18",
+  "groups": [
+    {
+      "group": "I1",
+      "desc": "侧身视角对齐",
+      "duo_prompt": "将第一张图作为角色A，第二张图作为角色B，生成一张两个角色侧身面对面的全身照，角色A面向右侧角色B面向左侧，保留两个角色的面部特征、身份和服装穿着，纯白色背景无任何多余元素，使用均匀柔光照明和写实摄影风格。",
+      "scene_prompt": "现代办公走廊纵深视角，从侧面角度拍摄，两侧玻璃隔断办公室，浅灰色地毯地面，天花板LED灯带，远处有绿色出口标志，无人，电影级构图，高细节写实摄影风格。",
+      "shot_prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张角色A背对镜头在走廊中大步向前走的画面，角色B在身后伸手想要叫住她，保留角色的服装穿着和发型，使用自然室内光照和电影级写实构图。",
+      "duo_file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I1a_侧身双人图_1786601300.jpg",
+      "scene_file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I1b_走廊场景_纵深_1786601327.jpg",
+      "shot_result": {
+        "success": false,
+        "file": null,
+        "elapsed": 3.7845537662506104
+      }
+    },
+    {
+      "group": "I2",
+      "desc": "3/4角度对齐",
+      "duo_prompt": "将第一张图作为角色A，第二张图作为角色B，生成一张两个角色四分之三侧面角度面对面的全身照，镜头从斜45度角拍摄，保留两个角色的面部特征、身份和服装穿着，纯白色背景无任何多余元素，使用均匀柔光照明和写实摄影风格。",
+      "scene_prompt": "现代办公走廊，从斜45度角度拍摄，一侧玻璃隔断办公室可见，浅灰色地毯地面，天花板LED灯带，纵深透视感强，无人，电影级构图，高细节写实摄影风格。",
+      "shot_prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张角色A背对镜头在走廊中大步向前走的画面，角色B在身后伸手想要叫住她，保留角色的服装穿着和发型，使用自然室内光照和电影级写实构图。",
+      "duo_file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I2a_34角度双人图_1786601357.jpg",
+      "scene_file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I2b_走廊场景_34角度_1786601401.jpg",
+      "shot_result": {
+        "success": true,
+        "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I2c_34对峙分镜_1786601428.jpg",
+        "elapsed": 18.664459943771362
+      }
+    },
+    {
+      "group": "I3",
+      "desc": "背影视角对齐",
+      "duo_prompt": "将第一张图作为角色A，第二张图作为角色B，生成一张两个角色背对镜头的全身照，角色A在前方大步走，角色B在后方伸手想要叫住，保留两个角色的服装穿着和发型，纯白色背景无任何多余元素，使用均匀柔光照明和写实摄影风格。",
+      "scene_prompt": "复用I1走廊场景",
+      "shot_prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张角色A背对镜头在走廊中大步向前走的画面，角色B在身后伸手想要叫住她，保留角色的服装穿着和发型，使用自然室内光照和电影级写实构图。",
+      "duo_file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I3a_背影双人图_1786601451.jpg",
+      "scene_file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I1b_走廊场景_纵深_1786601327.jpg",
+      "shot_result": {
+        "success": true,
+        "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v17_I3c_背影走开分镜_1786601478.jpg",
+        "elapsed": 20.15206742286682
+      }
+    }
+  ]
+}
