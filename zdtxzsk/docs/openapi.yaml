@@ -1,0 +1,265 @@
+openapi: 3.0.3
+info:
+  title: Agent System Knowledge Base API
+  description: |
+    ASKB V1.0 HTTP API — 为 AI Agent 提供知识库读写能力。
+    服务地址固定为 http://localhost:8765
+  version: 1.0.0
+  contact:
+    name: ASKB Team
+servers:
+  - url: http://localhost:8765
+    description: 本地开发服务器
+
+paths:
+  /health:
+    get:
+      summary: 健康检查
+      description: 返回服务运行状态和 KB 根目录路径
+      responses:
+        '200':
+          description: 服务正常
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/init:
+    post:
+      summary: 初始化 Agent 上下文
+      description: |
+        加载人格、角色、项目、偏好记录和当前进度，拼装配额 context 字符串。
+        每次任务开始前调用。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitRequest'
+            example:
+              agent: workbuddy
+              persona: strict
+              role: director
+              project: short-drama
+      responses:
+        '200':
+          description: 初始化成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitResponse'
+        '400':
+          description: 请求体格式错误
+
+  /api/knowledge/query:
+    post:
+      summary: 查询知识
+      description: |
+        在 roles/{role}/、projects/{project}/knowledge/、knowledge/tools/、
+        knowledge/common/、knowledge/projects/ 中搜索关键词。
+        V1 限制：仅匹配文件名 + 内容前200字符。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+            example:
+              query: TDD
+              role: director
+              project: java-platform
+      responses:
+        '200':
+          description: 查询成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResponse'
+        '400':
+          description: query 参数为空
+
+  /api/knowledge/list:
+    get:
+      summary: 枚举所有知识条目
+      description: 列出 knowledge/ 目录下所有 .md 文件及其元数据
+      responses:
+        '200':
+          description: 枚举成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+
+  /api/report:
+    post:
+      summary: 提交经验报告
+      description: |
+        将 Agent 的经验写入 reports/ 目录，并同步追加到 history/audit-log.md。
+        写入使用文件锁保护并发安全。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportRequest'
+            example:
+              agent: workbuddy
+              role: director
+              content: "修复了 find_knowledge_files 的 match 过滤 bug"
+      responses:
+        '200':
+          description: 保存成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportResponse'
+        '400':
+          description: content 为空
+        '500':
+          description: 写入失败
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [running]
+        kb_root:
+          type: string
+          description: KB 根目录的绝对路径
+
+    InitRequest:
+      type: object
+      required: [agent]
+      properties:
+        agent:
+          type: string
+          description: Agent 标识符
+        persona:
+          type: string
+          enum: [strict, creative, guide]
+          description: 人格类型，默认 strict
+        role:
+          type: string
+          description: 角色名称，可选
+        project:
+          type: string
+          description: 项目名称，可选
+
+    InitResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ok]
+        agent:
+          type: string
+        persona:
+          type: string
+        role:
+          type: string
+        project:
+          type: string
+        context:
+          type: string
+          description: 拼装的上下文文本（含人格/角色/项目/偏好/进度）
+        files_loaded:
+          type: array
+          items:
+            type: string
+          description: 实际加载的文件路径列表
+
+    QueryRequest:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+          description: 搜索关键词
+        role:
+          type: string
+          description: 限定角色范围搜索，可选
+        project:
+          type: string
+          description: 限定项目范围搜索，可选
+
+    QueryResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ok]
+        query:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/KnowledgeResult'
+        count:
+          type: integer
+
+    KnowledgeResult:
+      type: object
+      properties:
+        path:
+          type: string
+          description: 相对于 KB_ROOT 的文件路径
+        title:
+          type: string
+          description: YAML 元数据中的 title，无则用文件名
+        scope:
+          type: string
+          description: YAML 元数据中的 scope（tools/common/projects）
+        tags:
+          type: array
+          items:
+            type: string
+        preview:
+          type: string
+          description: 内容前500字符
+        verified:
+          type: boolean
+          description: 是否经人工审核
+
+    ListResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [ok]
+        total:
+          type: integer
+          description: 知识条目总数
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/KnowledgeResult'
+
+    ReportRequest:
+      type: object
+      required: [agent, role, content]
+      properties:
+        agent:
+          type: string
+          description: 提交经验的 Agent 标识
+        role:
+          type: string
+          description: 提交经验的 Agent 角色
+        content:
+          type: string
+          description: 经验内容（纯文本）
+
+    ReportResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [saved]
+        path:
+          type: string
+          description: 相对于 KB_ROOT 的文件路径
+        filename:
+          type: string
+          description: 生成的文件名（YYYYMMDD_agent_role_report.md）

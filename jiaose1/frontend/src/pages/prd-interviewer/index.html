@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PRD 工坊 — 智能需求澄清器</title>
+<style>
+/* ── Reset & Tokens ───────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --c-primary: #1e3a8a;
+  --c-primary-h: #1d4ed8;
+  --c-bg: #f8fafc;
+  --c-surface: #ffffff;
+  --c-border: #e2e8f0;
+  --c-text: #0f172a;
+  --c-text-sub: #475569;
+  --c-muted: #94a3b8;
+  --c-success: #059669;
+  --c-warning: #d97706;
+  --c-danger: #dc2626;
+  --c-score-bg: #eff6ff;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,.12);
+  --font: 'Noto Sans SC', 'PingFang SC', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --space: 4px;
+}
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  color: var(--c-text);
+  background: var(--c-bg);
+  background-image: radial-gradient(circle, #e2e8f0 1px, transparent 1px);
+  background-size: 24px 24px;
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+input, textarea { font-family: var(--font); font-size: 1rem; }
+
+/* ── Header ───────────────────────────────────────────── */
+.app-header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--c-border);
+  padding: 12px 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.app-logo {
+  width: 28px; height: 28px;
+  background: var(--c-primary);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+}
+.app-logo svg { color: #fff; width: 16px; height: 16px; }
+.app-title { font-size: 1rem; font-weight: 700; color: var(--c-text); letter-spacing: -.01em; }
+.app-subtitle { font-size: .75rem; color: var(--c-muted); margin-left: auto; }
+
+/* ── Layout ───────────────────────────────────────────── */
+.app-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 120px;
+}
+.view { display: none; animation: fadeUp .35s ease both; }
+.view.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { opacity: .4; } 50% { opacity: 1; } }
+@keyframes dotBounce {
+  0%,80%,100% { transform: translateY(0); opacity: .4; }
+  40% { transform: translateY(-6px); opacity: 1; }
+}
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c-primary); margin: 0 3px; animation: dotBounce 1.2s ease-in-out infinite; }
+.dot:nth-child(2) { animation-delay: .2s; }
+.dot:nth-child(3) { animation-delay: .4s; }
+
+/* ── Buttons ──────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 20px; border-radius: var(--radius-md);
+  font-size: .9rem; font-weight: 600;
+  transition: background .15s, transform .1s, box-shadow .15s;
+}
+.btn:active { transform: scale(.97); }
+.btn-primary {
+  background: var(--c-primary); color: #fff;
+  box-shadow: 0 2px 8px rgba(30,58,138,.25);
+}
+.btn-primary:hover { background: var(--c-primary-h); box-shadow: 0 4px 12px rgba(30,58,138,.35); }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.btn-outline {
+  background: var(--c-surface); color: var(--c-text-sub);
+  border: 1px solid var(--c-border);
+}
+.btn-outline:hover { background: #f1f5f9; color: var(--c-text); }
+.btn-sm { padding: 6px 12px; font-size: .8rem; }
+.btn-full { width: 100%; justify-content: center; }
+.btn-icon {
+  width: 36px; height: 36px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-md); border: 1px solid var(--c-border);
+  color: var(--c-text-sub); transition: all .15s;
+}
+.btn-icon:hover { background: #f1f5f9; color: var(--c-text); }
+
+/* ── Inputs ───────────────────────────────────────────── */
+.field { margin-bottom: 16px; }
+.field-label {
+  display: block; font-size: .8rem; font-weight: 600;
+  color: var(--c-text-sub); margin-bottom: 6px; letter-spacing: .02em; text-transform: uppercase;
+}
+.input, .textarea {
+  width: 100%; padding: 10px 14px;
+  border: 1px solid var(--c-border); border-radius: var(--radius-md);
+  background: var(--c-surface); color: var(--c-text);
+  transition: border-color .15s, box-shadow .15s;
+  outline: none;
+}
+.input:focus, .textarea:focus {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+}
+.input::placeholder, .textarea::placeholder { color: var(--c-muted); }
+.textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+.input-error { border-color: var(--c-danger) !important; }
+.error-msg { font-size: .78rem; color: var(--c-danger); margin-top: 4px; display: none; }
+.error-msg.show { display: block; }
+
+/* ── Cards ────────────────────────────────────────────── */
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+.card-ghost {
+  background: rgba(255,255,255,.6);
+  border: 1px dashed var(--c-border);
+}
+
+/* ── Welcome View ─────────────────────────────────────── */
+.welcome-hero { text-align: center; padding: 40px 0 32px; }
+.welcome-icon {
+  width: 64px; height: 64px; margin: 0 auto 20px;
+  background: linear-gradient(135deg, var(--c-primary) 0%, #3b82f6 100%);
+  border-radius: 20px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(30,58,138,.2);
+}
+.welcome-icon svg { color: #fff; width: 32px; height: 32px; }
+.welcome-title { font-size: 1.75rem; font-weight: 800; letter-spacing: -.02em; color: var(--c-text); margin-bottom: 8px; }
+.welcome-desc { font-size: .95rem; color: var(--c-text-sub); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
+.welcome-steps {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-bottom: 32px;
+}
+.step-card {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--radius-md); padding: 16px; text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--c-primary); color: #fff;
+  font-size: .75rem; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-bottom: 8px;
+}
+.step-label { font-size: .8rem; font-weight: 600; color: var(--c-text); }
+.step-desc { font-size: .72rem; color: var(--c-muted); margin-top: 2px; }
+
+/* ── Score View ───────────────────────────────────────── */
+.score-header { text-align: center; margin-bottom: 24px; }
+.score-ring-wrap { position: relative; width: 140px; height: 140px; margin: 0 auto 16px; }
+.score-ring-wrap svg { transform: rotate(-90deg); }
+.score-value {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.score-num { font-size: 2.5rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.score-label { font-size: .72rem; color: var(--c-muted); margin-top: 2px; }
+.dim-list { display: flex; flex-direction: column; gap: 12px; }
+.dim-row { display: flex; align-items: center; gap: 12px; }
+.dim-name { width: 140px; font-size: .82rem; color: var(--c-text-sub); flex-shrink: 0; }
+.dim-bar-wrap { flex: 1; height: 8px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+.dim-bar { height: 100%; border-radius: 99px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+.dim-score { width: 32px; text-align: right; font-size: .78rem; font-weight: 600; color: var(--c-text-sub); flex-shrink: 0; }
+
+/* ── Question View ────────────────────────────────────── */
+.q-header { margin-bottom: 20px; }
+.q-round-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--c-score-bg); color: var(--c-primary);
+  font-size: .72rem; font-weight: 600; padding: 3px 10px;
+  border-radius: 99px; margin-bottom: 10px;
+}
+.q-title { font-size: 1.1rem; font-weight: 700; color: var(--c-text); margin-bottom: 4px; }
+.q-subtitle { font-size: .85rem; color: var(--c-text-sub); }
+.q-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+.q-item { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-md); padding: 16px; }
+.q-num { font-size: .7rem; font-weight: 700; color: var(--c-muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+.q-text { font-size: .9rem; font-weight: 600; color: var(--c-text); margin-bottom: 10px; line-height: 1.5; }
+.q-input { width: 100%; padding: 8px 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm); font-size: .85rem; background: #f8fafc; color: var(--c-text); transition: border-color .15s; outline: none; }
+.q-input:focus { border-color: #93c5fd; background: var(--c-surface); }
+
+/* ── Chat Bubbles ─────────────────────────────────────── */
+.chat-stream { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+.bubble { max-width: 85%; padding: 12px 16px; border-radius: var(--radius-lg); font-size: .9rem; line-height: 1.65; }
+.bubble-agent {
+  align-self: flex-start;
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-bottom-left-radius: 4px;
+  box-shadow: var(--shadow-sm);
+}
+.bubble-user {
+  align-self: flex-end;
+  background: var(--c-primary); color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.bubble-meta { font-size: .7rem; color: var(--c-muted); margin-top: 4px; }
+.bubble-user .bubble-meta { color: rgba(255,255,255,.6); }
+
+/* ── Final PRD View ───────────────────────────────────── */
+.prd-section { margin-bottom: 24px; }
+.prd-section-title {
+  font-size: .72rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--c-muted); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.prd-section-title svg { width: 14px; height: 14px; }
+.prd-tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.prd-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--c-score-bg); color: var(--c-primary);
+  font-size: .78rem; font-weight: 500;
+  padding: 4px 10px; border-radius: 99px;
+}
+.prd-text { font-size: .9rem; color: var(--c-text-sub); line-height: 1.7; }
+.prd-scenario {
+  background: #f8fafc; border: 1px solid var(--c-border);
+  border-radius: var(--radius-md); padding: 12px 16px;
+  font-size: .85rem; color: var(--c-text-sub);
+  margin-bottom: 8px;
+}
+.prd-scenario strong { color: var(--c-text); font-weight: 600; }
+.prd-final-score {
+  display: flex; align-items: center; gap: 16px;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 1px solid #a7f3d0; border-radius: var(--radius-lg);
+  padding: 20px 24px;
+}
+.prd-final-score .fs-num { font-size: 2rem; font-weight: 800; color: var(--c-success); line-height: 1; }
+.prd-final-score .fs-label { font-size: .8rem; color: #065f46; margin-top: 2px; }
+.prd-final-score .fs-note { font-size: .78rem; color: #047857; margin-top: 4px; }
+
+/* ── Thinking animation ───────────────────────────────── */
+.thinking-wrap { text-align: center; padding: 60px 0; }
+.thinking-icon {
+  width: 56px; height: 56px; margin: 0 auto 20px;
+  border: 3px solid var(--c-border);
+  border-top-color: var(--c-primary);
+  border-radius: 50%; animation: spin .8s linear infinite;
+}
+.thinking-text { font-size: .9rem; color: var(--c-text-sub); }
+.thinking-dots { display: flex; justify-content: center; gap: 4px; margin-top: 12px; }
+.thinking-progress {
+  width: 200px; height: 3px; background: var(--c-border);
+  border-radius: 99px; margin: 16px auto 0; overflow: hidden;
+}
+.thinking-progress-bar {
+  height: 100%; background: var(--c-primary); border-radius: 99px;
+  animation: progressGrow 2s ease-in-out forwards;
+}
+@keyframes progressGrow { from { width: 0; } to { width: 100%; } }
+
+/* ── Footer ───────────────────────────────────────────── */
+.app-footer {
+  text-align: center; padding: 24px;
+  font-size: .72rem; color: var(--c-muted);
+  border-top: 1px solid var(--c-border);
+  margin-top: 40px;
+}
+
+/* ── Utility ──────────────────────────────────────────── */
+.mt-8  { margin-top: 8px; }  .mt-12 { margin-top: 12px; }  .mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }  .mt-32 { margin-top: 32px; }
+.mb-8  { margin-bottom: 8px; } .mb-16 { margin-bottom: 16px; }
+.text-center { text-align: center; }
+.flex-center { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.hidden { display: none !important; }
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 600px) {
+  .welcome-steps { grid-template-columns: 1fr; }
+  .dim-name { width: 100px; font-size: .75rem; }
+  .app-container { padding: 20px 16px 100px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="app-header">
+  <div class="app-logo">
+    <!-- Lucide: message-square -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </div>
+  <span class="app-title">PRD 工坊</span>
+  <span class="app-subtitle">需求澄清与生成器 · 原型演示</span>
+</header>
+
+<!-- ═══════════ MAIN CONTAINER ═══════════ -->
+<div class="app-container">
+
+  <!-- ── View: Welcome ── -->
+  <section id="view-welcome" class="view active">
+    <div class="welcome-hero">
+      <div class="welcome-icon">
+        <!-- Lucide: lightbulb -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+      </div>
+      <h1 class="welcome-title">把你的想法，变成可落地的需求文档</h1>
+      <p class="welcome-desc">
+        我将扮演产品经理角色，通过多轮对话不断追问、澄清，直到把你的模糊想法打磨成一份结构完整、评分达标的产品需求文档（PRD）。
+      </p>
+    </div>
+
+    <div class="welcome-steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-label">描述你的想法</div>
+        <div class="step-desc">用一句话或一段话描述你想做的产品</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-label">回答澄清问题</div>
+        <div class="step-desc">我会针对模糊点逐轮提问</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-label">获取完整 PRD</div>
+        <div class="step-desc">评分达标后生成结构化需求文档</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label class="field-label">你的项目想法</label>
+        <textarea id="idea-input" class="textarea" rows="4"
+          placeholder="例如：我想做一个 AI 写作助手，帮助小红书博主自动生成爆款标题和文案..."></textarea>
+        <div id="idea-error" class="error-msg">请输入你的项目想法</div>
+      </div>
+      <button id="btn-start" class="btn btn-primary btn-full" onclick="App.start()">
+        <!-- Lucide: arrow-right -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        开始分析
+      </button>
+    </div>
+  </section>
+
+  <!-- ── View: Thinking ── -->
+  <section id="view-thinking" class="view">
+    <div class="thinking-wrap">
+      <div class="thinking-icon"></div>
+      <div class="thinking-text" id="thinking-text">正在分析你的需求…</div>
+      <div class="thinking-dots">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+      <div class="thinking-progress"><div class="thinking-progress-bar" id="thinking-bar"></div></div>
+    </div>
+  </section>
+
+  <!-- ── View: Score ── -->
+  <section id="view-score" class="view">
+    <div class="score-header">
+      <div class="score-ring-wrap">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="56" fill="none" stroke="#e2e8f0" stroke-width="6"/>
+          <circle id="score-circle" cx="70" cy="70" r="56" fill="none" stroke="#3b82f6" stroke-width="6"
+            stroke-dasharray="351.86" stroke-dashoffset="351.86" stroke-linecap="round"
+            style="transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1)"/>
+        </svg>
+        <div class="score-value">
+          <span class="score-num" id="score-num">0</span>
+          <span class="score-label">综合评分</span>
+        </div>
+      </div>
+      <h2 class="mt-8" style="font-size:1.1rem;font-weight:700;" id="score-verdict">需求初评</h2>
+      <p class="score-label" id="score-msg" style="color:var(--c-text-sub);font-size:.85rem;"></p>
+    </div>
+
+    <div class="card">
+      <div class="dim-list" id="dim-list"></div>
+    </div>
+
+    <div id="score-actions" class="mt-24 text-center"></div>
+  </section>
+
+  <!-- ── View: Question ── -->
+  <section id="view-question" class="view">
+    <div class="q-header">
+      <div class="q-round-badge" id="q-round-badge">
+        <!-- Lucide: circle -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+        澄清轮次 1 / 3
+      </div>
+      <h2 class="q-title">需要再明确几个问题</h2>
+      <p class="q-subtitle">以下问题将帮助我更好地理解你的需求，请尽量详细回答</p>
+    </div>
+
+    <div class="chat-stream" id="q-chat-preview"></div>
+
+    <div class="card card-ghost" style="margin-bottom:16px;">
+      <div id="q-list" class="q-list"></div>
+    </div>
+
+    <div class="flex-center" style="gap:12px;">
+      <button class="btn btn-outline" onclick="App.skipQuestions()">
+        <!-- Lucide: skip-forward -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y1="19"/></svg>
+        暂不补充，直接评估
+      </button>
+      <button class="btn btn-primary" id="btn-submit-q" onclick="App.submitQuestions()">
+        <!-- Lucide: send -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        提交回答
+      </button>
+    </div>
+  </section>
+
+  <!-- ── View: Final PRD ── -->
+  <section id="view-final" class="view">
+    <div class="prd-final-score mb-24">
+      <div>
+        <div class="fs-num" id="final-score-num">0</div>
+        <div class="fs-label">最终评分</div>
+      </div>
+      <div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--c-success);">需求已达标 ✓</div>
+        <div class="fs-note" id="final-score-note">经过多轮澄清，需求文档质量已达到可执行标准</div>
+      </div>
+    </div>
+
+    <div id="prd-content"></div>
+
+    <div class="mt-24 flex-center" style="gap:12px;">
+      <button class="btn btn-outline btn-full" onclick="App.restart()">
+        <!-- Lucide: refresh-cw -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        重新开始
+      </button>
+      <button class="btn btn-primary btn-full" onclick="App.copyPRD()">
+        <!-- Lucide: copy -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        复制 PRD 内容
+      </button>
+    </div>
+  </section>
+
+</div>
+
+<footer class="app-footer">
+  基于 AI 需求澄清逻辑构建 · 本原型为前端演示，所有 AI 响应由 Mock 数据驱动
+</footer>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+/* ─── Mock Data (simulates AI agent responses) ─────────── */
+const MOCK = {
+  // Round 1: initial score from a vague idea
+  round1: {
+    score: 62,
+    verdict: '需求较为模糊，需要补充关键信息',
+    verdictMsg: '初步分析发现，你的想法有一些亮点，但缺少目标用户、核心指标等关键信息。请回答以下问题，帮助我完善需求文档。',
+    dimensions: [
+      { name: '背景清晰度', score: 10, max: 15 },
+      { name: '价值定义',   score: 12, max: 20 },
+      { name: '解决方案完整性', score: 14, max: 25 },
+      { name: '验收标准',   score: 12, max: 25 },
+      { name: '影响范围',   score: 14, max: 15 },
+    ],
+    questions: [
+      { id: 'q1', text: '这个产品的目标用户是谁？请列出至少 3 类用户群体。' },
+      { id: 'q2', text: '你希望用什么指标来衡量这个产品的成功？（如日活、转化率、留存率等）' },
+      { id: 'q3', text: '目前有没有类似的产品？你和它们的差异点是什么？' },
+    ],
+    mockAnswers: [
+      '主要是小红书创作者、自媒体运营人员，以及小型电商商家的内容团队。',
+      '我希望用内容产出效率（从选题到发布的时间缩短 50%）和爆款率（点击率超过行业均值 20% 的内容占比）来衡量。',
+      '目前市面上有 Jianying、稿定设计等工具，但它们是通用型工具。我们的差异化在于专注小红书平台，并且内置了平台算法偏好的关键词库和封面模板。',
+    ],
+    dimBonus: [4, 5, 3, 4, 1], // points added per dimension after answers
+  },
+  // Round 2: second score with more detail
+  round2: {
+    score: 77,
+    verdict: '接近达标，再补充一些细节即可',
+    verdictMsg: '信息越来越完整了！还差最后一点细节就能生成完整的 PRD。',
+    dimensions: [
+      { name: '背景清晰度', score: 14, max: 15 },
+      { name: '价值定义',   score: 17, max: 20 },
+      { name: '解决方案完整性', score: 17, max: 25 },
+      { name: '验收标准',   score: 16, max: 25 },
+      { name: '影响范围',   score: 13, max: 15 },
+    ],
+    questions: [
+      { id: 'q4', text: '你计划第一个版本（MVP）包含哪些核心功能？优先级如何排序？' },
+      { id: 'q5', text: '这个项目的大致时间规划和预算范围是多少？' },
+    ],
+    mockAnswers: [
+      'MVP 三个核心功能：① AI 爆款标题生成器（最高优先级）② 文案一键优化 ③ 同类爆款内容分析。后续版本再做封面生成和数据分析面板。',
+      '预算大约 20-30 万，希望在 3 个月内上线 MVP，6 个月内完成迭代验证。',
+    ],
+    dimBonus: [1, 3, 8, 9, 2],
+  },
+  // Final PRD
+  finalPrd: {
+    targetUsers: [
+      '小红书创作者（粉丝 1万-50万，内容更新频繁，需要持续产出爆款）',
+      '自媒体运营团队（多人协作，需要统一的风格和效率工具）',
+      '小型电商商家（自有账号运营，预算有限但追求 ROI）',
+    ],
+    coreFunctions: [
+      'AI 爆款标题生成器：输入关键词/主题，一键生成 10+ 个符合平台调性的高点击率标题',
+      '文案一键优化：对已有文案进行风格优化、关键词植入、情绪调动',
+      '同类爆款内容分析：输入竞品账号或话题，分析高赞内容的结构、关键词、发布时间规律',
+      '（后续）封面图 AI 生成：根据文案自动生成符合平台审美的封面图',
+      '（后续）数据面板：追踪发布后 24h/72h 的阅读量、点赞、收藏、评论数据',
+    ],
+    keyScenarios: [
+      { title: '日常内容生产', desc: '创作者每天花 30 分钟选题+写标题，原来需要 2 小时，效率提升 60%' },
+      { title: '新品推广策划', desc: '电商商家上新前，用工具批量生成 50 条标题备选，快速 A/B 测试' },
+      { title: '竞品内容复盘', desc: '运营每周花 1 小时分析 Top 20 爆款，提炼可复用的结构和关键词' },
+    ],
+    description: '一款专注于小红书平台的 AI 内容创作助手，帮助创作者和运营人员高效产出符合平台算法偏好的爆款内容。产品以「爆款标题生成」为核心切入点，逐步扩展至文案优化、竞品分析、封面生成等全流程内容生产能力。目标是将内容创作门槛降低，让小团队和个人创作者也能产出专业级内容。',
+    acceptanceCriteria: [
+      '标题生成准确率：用户满意度 ≥ 70%（抽样评估，n=50）',
+      '爆款率提升：使用工具后，内容平均点击率较基线提升 ≥ 15%',
+      '响应时间：单次标题生成 ≤ 3 秒，文案优化 ≤ 5 秒',
+      'MVP 上线后 30 日内，DAU ≥ 500，次日留存 ≥ 40%',
+    ],
+    scope: '一期（MVP）：标题生成器 + 文案优化 + 爆款分析；二期：封面生成 + 数据面板；不涉及社区功能和 UGC 内容分发。',
+  },
+};
+
+/* ─── App State & Logic ────────────────────────────────── */
+const App = (() => {
+  let state = {
+    idea: '',
+    currentRound: 0,
+    userAnswers: [],
+    history: [],
+  };
+
+  const $ = id => document.getElementById(id);
+  const show = id => {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    $(id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+  async function start() {
+    const input = $('idea-input');
+    const idea = input.value.trim();
+    if (!idea) {
+      input.classList.add('input-error');
+      $('idea-error').classList.add('show');
+      input.focus();
+      return;
+    }
+    input.classList.remove('input-error');
+    $('idea-error').classList.remove('show');
+    state.idea = idea;
+    state.currentRound = 1;
+    state.userAnswers = [];
+    state.history = [];
+
+    show('view-thinking');
+    $('thinking-text').textContent = '正在分析你的需求…';
+    // Reset animation
+    const bar = $('thinking-bar');
+    bar.style.animation = 'none';
+    bar.offsetHeight; // reflow
+    bar.style.animation = '';
+    // Reset dots
+    document.querySelectorAll('.dot').forEach(d => { d.style.animation = 'none'; d.offsetHeight; d.style.animation = ''; });
+
+    await sleep(2200);
+    renderScore(MOCK.round1);
+  }
+
+  function renderScore(roundData) {
+    const { score, verdict, verdictMsg, dimensions } = roundData;
+
+    // Animate score number
+    animateNumber($('score-num'), score);
+
+    // Score ring
+    const circumference = 2 * Math.PI * 56; // r=56
+    const offset = circumference * (1 - score / 100);
+    const circle = $('score-circle');
+    circle.style.strokeDasharray = circumference;
+    circle.style.strokeDashoffset = circumference;
+    const scoreColor = score >= 80 ? 'var(--c-success)' : score >= 60 ? 'var(--c-warning)' : 'var(--c-danger)';
+    circle.style.stroke = scoreColor;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        circle.style.strokeDashoffset = offset;
+      });
+    });
+
+    $('score-verdict').textContent = verdict;
+    $('score-msg').textContent = verdictMsg;
+
+    // Dimension bars
+    const dimList = $('dim-list');
+    dimList.innerHTML = '';
+    dimensions.forEach((d, i) => {
+      const pct = Math.round((d.score / d.max) * 100);
+      const barColor = pct >= 80 ? 'var(--c-success)' : pct >= 50 ? 'var(--c-warning)' : 'var(--c-danger)';
+      const row = document.createElement('div');
+      row.className = 'dim-row';
+      row.style.animation = `fadeUp .3s ease ${i * 80}ms both`;
+      row.innerHTML = `
+        <span class="dim-name">${d.name}</span>
+        <div class="dim-bar-wrap"><div class="dim-bar" style="width:0%;background:${barColor};" data-width="${pct}%"></div></div>
+        <span class="dim-score">${d.score}/${d.max}</span>
+      `;
+      dimList.appendChild(row);
+      // Animate bar
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          row.querySelector('.dim-bar').style.width = `${pct}%`;
+        });
+      });
+    });
+
+    // Actions
+    const actions = $('score-actions');
+    if (score >= 80) {
+      actions.innerHTML = `<button class="btn btn-primary" onclick="App.goToFinal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        生成完整 PRD
+      </button>`;
+    } else {
+      actions.innerHTML = `
+        <button class="btn btn-primary" onclick="App.goToQuestion()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          回答澄清问题
+        </button>
+        <button class="btn btn-outline" onclick="App.goToQuestion(true)">跳过本轮，强制生成</button>`;
+    }
+
+    show('view-score');
+  }
+
+  function goToQuestion(skip = false) {
+    const roundData = skip ? MOCK.round1 : (state.currentRound === 1 ? MOCK.round1 : MOCK.round2);
+    const isLastRound = state.currentRound >= 2;
+
+    // Render questions
+    const qList = $('q-list');
+    qList.innerHTML = '';
+    roundData.questions.forEach((q, i) => {
+      const answer = state.userAnswers[state.userAnswers.length - (isLastRound ? 2 - i : 1 - i)] || '';
+      const item = document.createElement('div');
+      item.className = 'q-item';
+      item.style.animation = `fadeUp .3s ease ${i * 80}ms both`;
+      item.innerHTML = `
+        <div class="q-num">问题 ${i + 1} / ${roundData.questions.length}</div>
+        <div class="q-text">${q.text}</div>
+        <input class="q-input" id="q-input-${i}" type="text" placeholder="请输入你的回答…" value="${answer}" />
+      `;
+      qList.appendChild(item);
+    });
+
+    // Round badge
+    $('q-round-badge').innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      澄清轮次 ${state.currentRound} / 3
+    `;
+
+    // Chat preview: show user's previous answers as bubbles
+    const chatPreview = $('q-chat-preview');
+    chatPreview.innerHTML = '';
+    if (state.history.length > 0) {
+      state.history.forEach(h => {
+        const div = document.createElement('div');
+        div.className = 'bubble bubble-agent';
+        div.style.animation = 'fadeUp .3s ease both';
+        div.innerHTML = `<div>${h.agentText}</div><div class="bubble-meta">产品经理「许清楚」</div>`;
+        chatPreview.appendChild(div);
+
+        const uDiv = document.createElement('div');
+        uDiv.className = 'bubble bubble-user';
+        uDiv.style.animation = 'fadeUp .3s ease .1s both';
+        uDiv.innerHTML = `<div>${h.userText}</div><div class="bubble-meta">你</div>`;
+        chatPreview.appendChild(uDiv);
+      });
+    }
+
+    show('view-question');
+  }
+
+  async function submitQuestions() {
+    const roundData = state.currentRound === 1 ? MOCK.round1 : MOCK.round2;
+    const inputs = [...document.querySelectorAll('#q-list .q-input')];
+    const answers = inputs.map(inp => inp.value.trim());
+
+    if (answers.some(a => !a)) {
+      inputs.forEach(inp => { if (!inp.value.trim()) inp.classList.add('input-error'); });
+      return;
+    }
+
+    state.userAnswers.push(answers);
+    state.history.push({
+      agentText: '请帮我澄清以下几个关键问题：',
+      userText: answers.join('；'),
+    });
+
+    // Show thinking
+    show('view-thinking');
+    $('thinking-text').textContent = '正在重新评估需求质量…';
+    // Reset animation
+    const bar2 = $('thinking-bar');
+    bar2.style.animation = 'none';
+    bar2.offsetHeight;
+    bar2.style.animation = '';
+    document.querySelectorAll('.dot').forEach(d => { d.style.animation = 'none'; d.offsetHeight; d.style.animation = ''; });
+
+    await sleep(1800);
+
+    // Apply bonuses
+    const newDims = roundData.dimensions.map((d, i) => ({
+      ...d,
+      score: Math.min(d.score + roundData.dimBonus[i], d.max),
+    }));
+    const newScore = newDims.reduce((s, d) => s + d.score, 0);
+
+    renderScore({
+      score: newScore,
+      verdict: newScore >= 80 ? '需求已达标！' : '还需进一步澄清',
+      verdictMsg: newScore >= 80
+        ? '经过补充，需求质量已达到可执行标准，即将生成完整 PRD。'
+        : `当前评分 ${newScore}，建议继续补充信息以提升文档质量。`,
+      dimensions: newDims,
+    });
+
+    if (newScore >= 80) {
+      // Override to final round data for action button
+      const actions = $('score-actions');
+      actions.innerHTML = `<button class="btn btn-primary" onclick="App.goToFinal()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        生成完整 PRD
+      </button>`;
+    }
+  }
+
+  function skipQuestions() {
+    state.currentRound++;
+    if (state.currentRound > 3) {
+      goToFinal();
+      return;
+    }
+    // Simulate empty answers
+    state.userAnswers.push([]);
+    state.history.push({ agentText: '用户选择跳过本轮澄清，继续评估。', userText: '' });
+    goToQuestion(true);
+  }
+
+  function goToFinal() {
+    const prd = MOCK.finalPrd;
+    $('final-score-num').textContent = '91';
+
+    const content = $('prd-content');
+    content.innerHTML = `
+      <!-- Description -->
+      <div class="prd-section">
+        <div class="prd-section-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          项目简介
+        </div>
+        <p class="prd-text">${prd.description}</p>
+      </div>
+
+      <!-- Target Users -->
+      <div class="prd-section">
+        <div class="prd-section-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          目标用户
+        </div>
+        <div class="prd-tag-list">
+          ${prd.targetUsers.map(u => `<span class="prd-tag">${u}</span>`).join('')}
+        </div>
+      </div>
+
+      <!-- Core Functions -->
+      <div class="prd-section">
+        <div class="prd-section-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          核心功能
+        </div>
+        <div class="prd-tag-list">
+          ${prd.coreFunctions.map(f => `<span class="prd-tag">${f}</span>`).join('')}
+        </div>
+      </div>
+
+      <!-- Key Scenarios -->
+      <div class="prd-section">
+        <div class="prd-section-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          关键场景
+        </div>
+        ${prd.keyScenarios.map(s => `
+          <div class="prd-scenario">
+            <strong>${s.title}</strong><br/>
+            ${s.desc}
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Acceptance Criteria -->
+      <div class="prd-section">
+        <div class="prd-section-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          验收标准
+        </div>
+        <ul style="padding-left:20px;font-size:.85rem;color:var(--c-text-sub);line-height:2;">
+          ${prd.acceptanceCriteria.map(c => `<li>${c}</li>`).join('')}
+        </ul>
+      </div>
+
+      <!-- Scope -->
+      <div class="prd-section">
+        <div class="prd-section-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          影响范围
+        </div>
+        <p class="prd-text">${prd.scope}</p>
+      </div>
+    `;
+
+    show('view-final');
+  }
+
+  function animateNumber(el, target) {
+    let current = 0;
+    const step = Math.ceil(target / 30);
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current;
+    }, 30);
+  }
+
+  function restart() {
+    state = { idea: '', currentRound: 0, userAnswers: [], history: [] };
+    $('idea-input').value = '';
+    show('view-welcome');
+  }
+
+  function copyPRD() {
+    const prd = MOCK.finalPrd;
+    const text = `# 项目需求文档（PRD）\n\n## 项目简介\n${prd.description}\n\n## 目标用户\n${prd.targetUsers.map(u => `- ${u}`).join('\n')}\n\n## 核心功能\n${prd.coreFunctions.map(f => `- ${f}`).join('\n')}\n\n## 关键场景\n${prd.keyScenarios.map(s => `### ${s.title}\n${s.desc}`).join('\n\n')}\n\n## 验收标准\n${prd.acceptanceCriteria.map(c => `- ${c}`).join('\n')}\n\n## 影响范围\n${prd.scope}\n\n---\n评分：91/100 · 需求已达标`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target.closest('.btn');
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> 已复制！`;
+      btn.style.background = 'var(--c-success)';
+      btn.style.color = '#fff';
+      setTimeout(() => { btn.innerHTML = orig; btn.style = ''; }, 2000);
+    });
+  }
+
+  // Enter key support
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      const active = document.activeElement;
+      if (active && active.classList.contains('q-input')) {
+        // Allow shift+enter for newlines, enter submits if last input
+        const inputs = [...document.querySelectorAll('#q-list .q-input')];
+        if (active === inputs[inputs.length - 1]) {
+          e.preventDefault();
+          App.submitQuestions();
+        }
+      }
+    }
+  });
+
+  return { start, goToQuestion, submitQuestions, skipQuestions, goToFinal, restart, copyPRD };
+})();
+</script>
+</body>
+</html>

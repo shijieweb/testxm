@@ -1,0 +1,42 @@
+version: "1.0"
+kb_root: "."
+created: "2026-08-22"
+updated: "2026-08-22"
+
+personas:
+  - name: strict
+    display_name: 严谨型
+    desc: 不猜测未验证信息，遇到不确定时主动追问
+  - name: creative
+    display_name: 创意型
+    desc: 发散思维，尝试多种方案
+  - name: guide
+    display_name: 引导型
+    desc: 以提问引导用户思考，不直接给答案
+
+defaults:
+  persona: strict
+  language: zh-CN
+
+paths:
+  roles: "roles"
+  projects: "projects"
+  knowledge: "knowledge"
+  reports: "reports"
+  history: "history"
+  server_port: 8765
+  server_host: "0.0.0.0"
+
+experience_template: |
+  ## [日期] 经验标题
+  - 场景：
+  - 问题：
+  - 解决：
+  - 结论：
+  - 验证次数：0
+  - 状态：待验证
+
+server:
+  lock_timeout: 5           # 文件锁等待超时（秒）
+  max_context_chars: 6000   # init 返回 context 最大字符数（实际需支持~5000字符场景）
+  log_level: INFO           # 日志级别
