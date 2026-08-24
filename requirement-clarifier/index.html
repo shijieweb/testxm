@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>需求拷问台 · Requirement Clarifier</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="clarify">
+  <div class="app">
+    <!-- 顶部条 -->
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        </span>
+        <div class="brand-text">
+          <h1>需求拷问台</h1>
+          <p>Requirement Clarifier · 动态追问，实时可视化，直到落地需求</p>
+        </div>
+      </div>
+      <div class="top-status">
+        <span class="pill" id="phasePill">澄清中</span>
+        <button id="restartBtn" class="btn ghost sm" type="button">重来</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <!-- 左：动态追问区（对话流） -->
+      <section class="panel chat" id="chatPanel">
+        <div class="chat-head">
+          <div class="chat-meta">
+            <span class="chat-step" id="roundLabel">第 1 轮</span>
+            <span class="chat-dim" id="chatDimTag">目标清晰</span>
+          </div>
+          <p class="chat-eng">AI 澄清官持续拷问，你在对话框作答</p>
+        </div>
+
+        <div class="chat-scroll" id="chatScroll">
+          <!-- 对话消息流：.msg.user / .msg.ai -->
+        </div>
+
+        <div class="chat-input">
+          <textarea id="chatInput" rows="2" placeholder="输入你的回答…⌨ 回车发送，Shift+回车换行" maxlength="600"></textarea>
+          <div class="chat-actions">
+            <div class="hint-row">
+              <span id="quickHints"></span>
+            </div>
+            <button id="sendBtn" class="btn primary" type="button">发送</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 右：实时可视化面板 -->
+      <aside class="panel viz" id="vizPanel">
+        <div class="viz-grid">
+          <!-- 总分仪表 -->
+          <div class="gauge-card">
+            <div class="gauge">
+              <svg viewBox="0 0 120 120" class="gauge-svg" id="gaugeSvg">
+                <circle class="gauge-track" cx="60" cy="60" r="52"/>
+                <circle class="gauge-value" id="gaugeValue" cx="60" cy="60" r="52"/>
+              </svg>
+              <div class="gauge-center">
+                <span class="gauge-num" id="gaugeNum">0</span>
+                <span class="gauge-total">/ 100 分</span>
+              </div>
+            </div>
+            <p class="gauge-note" id="gaugeNote">需求尚未达标，不放行</p>
+          </div>
+
+          <!-- 五维雷达图 -->
+          <div class="card">
+            <div class="card-title">需求维度雷达</div>
+            <svg viewBox="0 0 220 220" class="radar-svg" id="radarSvg"></svg>
+          </div>
+
+          <!-- 维度进度 -->
+          <div class="card dims-card">
+            <div class="card-title">各维度达标进度</div>
+            <div class="dim-list" id="dimList"></div>
+          </div>
+        </div>
+
+        <!-- 实时需求骨架 -->
+        <div class="skeleton card">
+          <div class="card-title">实时需求骨架 <span class="idle-tag" id="skeletonState">待充实</span></div>
+          <div class="skeleton-body" id="skeletonBody">
+            <p class="skeleton-empty">回答左侧问题后，骨架会自动实时填充</p>
+          </div>
+          <button id="genBtn" class="btn primary lg skeleton-gen" type="button" disabled>生成可落地需求文档</button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- 生成文档抽屉 -->
+    <div class="doc-drawer" id="docDrawer">
+      <div class="doc-head">
+        <div>
+          <h2>需求文档</h2>
+          <p class="sub">已达标，可落地的项目需求已生成</p>
+        </div>
+        <div class="doc-actions">
+          <button id="copyBtn" class="btn primary sm" type="button">复制</button>
+          <button id="downloadBtn" class="btn ghost sm" type="button">下载 .md</button>
+        </div>
+      </div>
+      <pre class="doc-body" id="docBody"></pre>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+  </div>
+
+<script src="api.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
