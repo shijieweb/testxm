@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent System Knowledge Base V1.0 — 统一分析报告</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3348;
+    --accent: #6c8cff;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #f59e0b;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-muted: #64748b;
+    --danger: #f87171;
+    --warning: #fbbf24;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    line-height: 1.7;
+    padding: 2rem;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2.5rem;
+  }
+  .header .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+  .header .subtitle {
+    color: var(--text-dim);
+    font-size: 1rem;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 2.5rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-title .num {
+    background: var(--accent);
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--accent);
+  }
+  .card p, .card li {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+  }
+  .card ul {
+    padding-left: 1.2rem;
+  }
+  .card li { margin-bottom: 0.4rem; }
+
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 700px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+  }
+  th, td {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  td { color: var(--text-dim); }
+  tr:hover td { background: var(--surface2); }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .tag-green { background: #064e3b; color: #34d399; }
+  .tag-yellow { background: #78350f; color: #fbbf24; }
+  .tag-red { background: #7f1d1d; color: #f87171; }
+  .tag-blue { background: #1e3a5f; color: #6c8cff; }
+  .tag-purple { background: #3b1f6e; color: #a78bfa; }
+
+  /* Flow diagram */
+  .flow {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin: 1rem 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.9;
+    white-space: pre-wrap;
+  }
+  .flow .hl { color: var(--accent3); font-weight: bold; }
+  .flow .warn { color: var(--warning); font-weight: bold; }
+  .flow .err { color: var(--danger); font-weight: bold; }
+
+  /* Highlight box */
+  .highlight-box {
+    border-left: 4px solid var(--accent);
+    background: var(--surface2);
+    padding: 1rem 1.2rem;
+    border-radius: 0 8px 8px 0;
+    margin: 1rem 0;
+  }
+  .highlight-box.warn { border-left-color: var(--warning); }
+  .highlight-box.danger { border-left-color: var(--danger); }
+  .highlight-box.success { border-left-color: var(--accent3); }
+
+  /* Code blocks */
+  pre {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin: 0.8rem 0;
+  }
+  code { font-family: 'Consolas', monospace; }
+
+  /* Checklist */
+  .checklist { list-style: none; padding: 0; }
+  .checklist li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: var(--text-dim);
+    font-size: 0.92rem;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon { flex-shrink: 0; margin-top: 2px; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Analysis Report</div>
+    <h1>Agent System Knowledge Base V1.0</h1>
+    <p class="subtitle">统一分析报告 &middot; 2026-08-21</p>
+  </div>
+
+  <!-- 1. Executive Summary -->
+  <div class="section">
+    <div class="section-title"><span class="num">1</span> 核心结论</div>
+    <div class="highlight-box success">
+      <strong>总体评价：</strong>这是一份结构清晰、原则明确的 V1.0 知识库设计文档。
+      它选择了一条<strong>「最小闭环先跑通」</strong>的务实路径：文件系统代替数据库、
+      人工触发代替自动化、Markdown + YAML 元数据保证可读性。
+      整体架构方向正确，适合团队从 0 到 1 验证知识沉淀流程。
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>维度</th>
+          <th>评估</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>定位清晰度</strong></td>
+          <td><span class="tag tag-green">优秀</span></td>
+          <td>明确区分「不属于私有 Memory」「不属于 RAG/向量库」，定位精准。</td>
+        </tr>
+        <tr>
+          <td><strong>架构完整性</strong></td>
+          <td><span class="tag tag-green">优秀</span></td>
+          <td>人格→角色→项目→工具→知识的分层完整，生命周期流程闭环。</td>
+        </tr>
+        <tr>
+          <td><strong>可落地性</strong></td>
+          <td><span class="tag tag-green">优秀</span></td>
+          <td>十步开发顺序具体、目标可验证，不需要基础设施即可启动。</td>
+        </tr>
+        <tr>
+          <td><strong>V1 边界控制</strong></td>
+          <td><span class="tag tag-green">优秀</span></td>
+          <td>第 23 条明确列出「暂不做清单」，是文档最大的亮点之一。</td>
+        </tr>
+        <tr>
+          <td><strong>风险点</strong></td>
+          <td><span class="tag tag-yellow">需关注</span></td>
+          <td>第 5 章与「被纠错复盘写入纠错复盘/目录」规则存在重叠，需明确分工。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 2. Architecture Overview -->
+  <div class="section">
+    <div class="section-title"><span class="num">2</span> 架构总览</div>
+    <div class="card">
+      <h3>数据层次模型</h3>
+      <div class="flow">人格 Persona
+  ↓
+角色 Role  ─── 引用通用人格（如 strict/creative）
+  ↓
+项目 Project  ─── 绑定 roles 和 tools
+  ↓
+工具 Tool  ─── WorkBuddy/Claude Code/TRAE 等
+  ↓
+知识 Knowledge  ─── 经验验证后升级路径：
+                     Agent → 项目级 → 公共级</div>
+    </div>
+    <div class="card">
+      <h3>目录结构（V1 最小版）</h3>
+      <pre>agent-system-knowledge-base/
+├── config/config.yaml          ← 全局配置
+├── roles/
+│   ├── director/
+│   │   ├── role.md             ← "我是谁，怎么工作"
+│   │   └── experience.md       ← "学到了什么"
+│   └── java-developer/
+│       ├── role.md
+│       └── experience.md
+├── projects/
+│   ├── short-drama/project.md
+│   └── java-platform/project.md
+├── knowledge/
+│   ├── common/
+│   ├── tools/
+│   ├── domains/
+│   └── projects/
+├── reports/                    ← 待审核经验
+└── history/</pre>
+    </div>
+  </div>
+
+  <!-- 3. Core Design Decisions -->
+  <div class="section">
+    <div class="section-title"><span class="num">3</span> 核心设计决策分析</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>✅ 正确的取舍</h3>
+        <ul>
+          <li><strong>文件系统=数据库</strong>：人可读、Git 可管理、零运维成本，V1 阶段完全合理。</li>
+          <li><strong>人工触发获取/提交</strong>：避免自动检索干扰上下文，避免低质量经验污染知识库。</li>
+          <li><strong>经验升级路径</strong>：角色→项目→公共 三级跃迁，保证知识逐步收敛。</li>
+          <li><strong>YAML 元数据</strong>：机器可解析，人类可编辑，平衡了机器效率和人工可读性。</li>
+          <li><strong>三个 HTTP 接口</strong>：init / query / report 极简，覆盖完整闭环。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚠️ 需关注的问题</h3>
+        <ul>
+          <li><strong>知识查询 V1 为关键词匹配</strong>：当知识量增长后，纯关键词搜索会失效，需要明确何时切换到向量检索。</li>
+          <li><strong>缺少冲突处理</strong>：多人同时编辑同一条经验、或同一经验有多个版本时，没有定义合并策略。</li>
+          <li><strong>经验成熟度标准未定义</strong>：「人工判断是否成熟」依赖人为主观判断，建议补充可量化指标（如验证次数 ≥ 3）。</li>
+          <li><strong>无权限控制</strong>：V1 暂不做，但需记录在案，V2 前必须有方案。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Workflow Analysis -->
+  <div class="section">
+    <div class="section-title"><span class="num">4</span> 工作流分析</div>
+
+    <div class="card">
+      <h3>Agent 最小生命周期（V1）</h3>
+      <div class="flow">启动
+ ↓
+初始化 (/api/init) → 获得人格+角色+项目+工具上下文
+ ↓
+执行任务
+ ↓
+遇到问题
+    ↓ 人工要求获取知识 → (/api/knowledge/query)
+    ↓ 继续执行
+ ↓
+任务完成
+ ↓
+总结经验 → 更新 experience.md
+ ↓
+人工判断是否成熟
+ ↓
+需要时提交 (/api/report) → reports/（待审核）</div>
+    </div>
+
+    <div class="card">
+      <h3>知识与经验的流动路径</h3>
+      <table>
+        <thead>
+          <tr><th>阶段</th><th>位置</th><th>状态</th><th>来源</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>原始经验</td><td><code>roles/*/experience.md</code></td><td><span class="tag tag-blue">个人</span></td><td>Agent 任务积累</td></tr>
+          <tr><td>待审核</td><td><code>reports/</code></td><td><span class="tag tag-yellow">审核中</span></td><td>人工提交触发</td></tr>
+          <tr><td>项目级</td><td><code>knowledge/projects/*</code></td><td><span class="tag tag-green">已验证</span></td><td>多次项目实践</td></tr>
+          <tr><td>公共级</td><td><code>knowledge/tools/</code> / <code>common/</code></td><td><span class="tag tag-green">通用</span></td><td>跨项目复用验证</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5. API Design Review -->
+  <div class="section">
+    <div class="section-title"><span class="num">5</span> HTTP API 评审</div>
+
+    <div class="card">
+      <h3>三个核心接口</h3>
+      <table>
+        <thead>
+          <tr><th>接口</th><th>方法</th><th>功能</th><th>评审</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>/api/init</code></td>
+            <td>POST</td>
+            <td>初始化上下文（人格+角色+项目+工具）</td>
+            <td><span class="tag tag-green">清晰</span></td>
+          </tr>
+          <tr>
+            <td><code>/api/knowledge/query</code></td>
+            <td>POST</td>
+            <td>按关键词/标签查询相关知识</td>
+            <td><span class="tag tag-green">合理</span><br><em>V1 关键词足够</em></td>
+          </tr>
+          <tr>
+            <td><code>/api/report</code></td>
+            <td>POST</td>
+            <td>提交经验到 reports/ 目录</td>
+            <td><span class="tag tag-green">合适</span><br><em>不自动入库，安全</em></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight-box warn">
+      <strong>建议补充：</strong>可增加 <code>GET /api/knowledge/list</code> 接口，用于枚举所有可用知识条目，方便人工浏览和选择查询范围。目前只有 query 一个入口，缺少目录视图。
+    </div>
+  </div>
+
+  <!-- 6. Gap Analysis -->
+  <div class="section">
+    <div class="section-title"><span class="num">6</span> 与现有规则的协同分析</div>
+
+    <div class="card">
+      <h3>用户规则与 ASKB 的对应关系</h3>
+      <table>
+        <thead>
+          <tr><th>用户规则</th><th>ASKB 对应机制</th><th>协同评价</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>纠错复盘写入 <code>纠错复盘/</code></td>
+            <td>可对应 <code>reports/</code> + <code>experience.md</code></td>
+            <td><span class="tag tag-green">兼容</span></td>
+          </tr>
+          <tr>
+            <td>独立方向拆子会话并行</td>
+            <td>不同角色独立积累 <code>experience.md</code></td>
+            <td><span class="tag tag-green">一致</span></td>
+          </tr>
+          <tr>
+            <td>[COMPRESSED] 标记后读偏好记录</td>
+            <td>知识查询 <code>/api/knowledge/query</code></td>
+            <td><span class="tag tag-yellow">需映射</span></td>
+          </tr>
+          <tr>
+            <td>开局读偏好记录.md</td>
+            <td><code>/api/init</code> 返回上下文</td>
+            <td><span class="tag tag-green">一致</span></td>
+          </tr>
+          <tr>
+            <td>偏好只追加不清空，变更标记 [废弃]</td>
+            <td>经验文档追加式写入，旧版保留</td>
+            <td><span class="tag tag-green">一致</span></td>
+          </tr>
+          <tr>
+            <td>长流程记当前进度.md</td>
+            <td><code>history/</code> 目录</td>
+            <td><span class="tag tag-green">一致</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight-box">
+      <strong>关键发现：</strong>用户规则中的「纠错复盘」目录与 ASKB 的 <code>reports/</code> 存在功能重叠。
+      建议明确：<code>纠错复盘/</code> 用于当次会话快速记录，<code>reports/</code> 用于长期沉淀；
+      成熟后由人工将复盘内容迁移进 ASKB。
+    </div>
+  </div>
+
+  <!-- 7. Risk Assessment -->
+  <div class="section">
+    <div class="section-title"><span class="num">7</span> 风险与改进建议</div>
+
+    <div class="grid-2">
+      <div class="card">
+        <h3>🔴 高优先级风险</h3>
+        <ul>
+          <li><strong>目录结构未实例化</strong>：当前 workspace 为空，没有任何文件。V1 第一步是建立目录。</li>
+          <li><strong>知识膨胀后搜索失效</strong>：关键词匹配在 50+ 条知识时效率显著下降，需规划升级时机。</li>
+          <li><strong>缺少 Git 集成</strong>：虽然提到 Git 可管理，但未定义分支策略（主分支 vs 经验分支）。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🟡 中优先级改进</h3>
+        <ul>
+          <li>补充 <code>GET /api/knowledge/list</code> 接口</li>
+          <li>定义「经验成熟度」量化标准（如：验证 ≥ 3 次）</li>
+          <li>明确 <code>纠错复盘/</code> 与 <code>reports/</code> 的职责边界</li>
+          <li>添加知识库 README，说明目录用途和命名规范</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>📋 V1 成功标准对照表</h3>
+      <ul class="checklist">
+        <li><span class="check-icon">⬜</span> ① Agent 能通过 <code>/api/init</code> 获得人格 + 角色 + 项目 上下文</li>
+        <li><span class="check-icon">⬜</span> ② Agent 能在任务中记录经验到 <code>experience.md</code></li>
+        <li><span class="check-icon">⬜</span> ③ 人工能通过 <code>/api/knowledge/query</code> 获取指定知识</li>
+        <li><span class="check-icon">⬜</span> ④ 人工能通过 <code>/api/report</ SAPI> 提交经验到 reports/</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 8. Next Steps -->
+  <div class="section">
+    <div class="section-title"><span class="num">8</span> 下一步行动建议</div>
+
+    <div class="card">
+      <h3>建议立即执行的操作</h3>
+      <ol style="padding-left: 1.5rem; color: var(--text-dim);">
+        <li style="margin-bottom: 0.5rem;"><strong>建目录</strong>：在 workspace 创建完整的 V1 目录结构（第 16 条）</li>
+        <li style="margin-bottom: 0.5rem;"><strong>创建 config.yaml</strong>：定义全局配置，如知识库根路径、默认人格列表</li>
+        <li style="margin-bottom: 0.5rem;"><strong>建立第一个角色</strong>：推荐从「导演」角色开始（与短剧项目关联）</li>
+        <li style="margin-bottom: 0.5rem;"><strong>实现 /api/init</strong>：这是整个系统的第一步，必须最先完成</li>
+        <li style="margin-bottom: 0.5rem;"><strong>接入 WorkBuddy</strong>：作为第一个真实 Agent 接入测试</li>
+      </ol>
+    </div>
+
+    <div class="highlight-box success">
+      <strong>文档一句话总结：</strong>
+      这是一个让不同 Agent 能共享「人格、角色、项目和经验」的文件型知识库；
+      Agent 自己负责积累经验，人负责决定什么时候获取和提交，先把闭环跑通，再逐步智能化。
+    </div>
+  </div>
+
+  <div class="footer">
+    Agent System Knowledge Base V1.0 — 统一分析报告<br>
+    生成时间：2026-08-21 &middot; 分析对象：Agent_System_Knowledge_Base_V1.0-1.md
+  </div>
+
+</div>
+</body>
+</html>
