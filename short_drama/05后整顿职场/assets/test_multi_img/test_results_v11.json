@@ -1,0 +1,79 @@
+{
+  "version": "v11",
+  "timestamp": "2026-08-12 19:12:02",
+  "reference_images": {
+    "苏晓_四视图": "/workspace/short_drama/05后整顿职场/assets/characters/苏晓_四视图_含特写.jpg",
+    "张经理_四视图": "/workspace/short_drama/05后整顿职场/assets/characters/张经理_四视图_含特写.jpg",
+    "苏晓_面部特写": "/workspace/short_drama/05后整顿职场/assets/characters/苏晓_面部特写_纯白.jpg",
+    "张经理_面部特写": "/workspace/short_drama/05后整顿职场/assets/characters/张经理_面部特写_纯白.jpg",
+    "走廊场景": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v4_scene_hallway_empty_1786547778.jpg"
+  },
+  "results": [
+    {
+      "test": "D1",
+      "desc": "四视图×2+场景 极简(3图)",
+      "ref_type": "四视图×2",
+      "prompt_type": "极简",
+      "img_count": 3,
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v11_D1_四视图_极简_1786561700.jpg",
+      "elapsed": 25.505253553390503,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "D2",
+      "desc": "四视图×2+场景 服装保留(3图)",
+      "ref_type": "四视图×2",
+      "prompt_type": "服装保留",
+      "img_count": 3,
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v11_D2_四视图_服装保留_1786561734.jpg",
+      "elapsed": 26.796607971191406,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。保留两个角色的面部特征、身份和服装穿着，使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "D3",
+      "desc": "四视图×2+特写×2+场景 极简(5图)",
+      "ref_type": "四视图+特写",
+      "prompt_type": "极简",
+      "img_count": 5,
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v11_D3_五图_四视图加特写_1786561790.jpg",
+      "elapsed": 50.97854399681091,
+      "prompt": "将第一张图和第二张图作为角色A的参考，第三张图和第四张图作为角色B的参考，第五张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "D4",
+      "desc": "面部特写×2+场景 极简(3图)baseline",
+      "ref_type": "面部特写×2",
+      "prompt_type": "极简",
+      "img_count": 3,
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v11_D4_特写_极简_baseline_1786561827.jpg",
+      "elapsed": 29.628780603408813,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "D5",
+      "desc": "四视图×2+场景 服装描述(3图)",
+      "ref_type": "四视图×2",
+      "prompt_type": "服装描述",
+      "img_count": 3,
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v11_D5_四视图_服装描述_1786561864.jpg",
+      "elapsed": 30.299638032913208,
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，第三张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。角色A穿浅米色翻领长袖衬衫和深灰色铅笔裙，角色B穿深蓝色短袖衬衫和黑色西裤。使用自然室内光照和电影级写实构图。"
+    },
+    {
+      "test": "D6",
+      "desc": "四视图+特写苏晓+四视图张经理+场景 极简(4图)",
+      "ref_type": "四视图+特写混合",
+      "prompt_type": "极简",
+      "img_count": 4,
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v11_D6_四图_混合参考_1786561922.jpg",
+      "elapsed": 51.66727614402771,
+      "prompt": "将第一张图和第二张图作为角色A的参考，第三张图作为角色B的参考，第四张图作为场景参考。角色B在走廊中伸手拦住角色A的去路，两人面对面。使用自然室内光照和电影级写实构图。"
+    }
+  ]
+}

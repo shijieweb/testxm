@@ -1,0 +1,10 @@
+{
+  "shot_id": "05",
+  "name": "李姐出场收尾",
+  "duration_sec": 5,
+  "num_frames": 121,
+  "scene_image_url": "https://platform-outputs.agnes-ai.space/images/t2i/5045ebf869ad4fa0aba46ce58c4721a4.png",
+  "video_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-v2.0/task_bn3iN4wZuXtx6nMVTbc5ipWYs2s8F5CU.mp4",
+  "output_path": "/workspace/short_drama/05后整顿职场/shots/ep01_05_李姐出场收尾_v1.mp4",
+  "success": true
+}

@@ -1,0 +1,20 @@
+{
+  "shot": "S01",
+  "mode": "keyframes",
+  "version": "v2",
+  "first_frame": {
+    "url": "https://platform-outputs.agnes-ai.space/images/t2i/f6139b7fe4754cd3bcb033a446cb1ce0.png",
+    "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01_首帧_坐着看电脑_keyframes.jpg",
+    "description": "苏晓坐着看电脑，电脑打开，包在椅侧（复用v1）"
+  },
+  "last_frame": {
+    "url": "https://platform-outputs.agnes-ai.space/images/t2i/59821b57d5584bdaa8bdcdb5cb491cb3.png",
+    "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01_尾帧_站起准备走_keyframes_v2.jpg",
+    "description": "苏晓站起，电脑合上（强化描述），包挎肩上"
+  },
+  "video_prompt": "9:16竖屏，现代开放式办公区格子间工位，白色工位隔板，桌面有笔记本电脑和文件，傍晚夕阳从窗外斜射进来，冷白室内光与暖色夕阳形成对比，背景有同事工位但模糊虚化。年轻女生苏晓，鹅蛋脸，杏眼明亮，鼻梁秀气，唇形饱满，肤色白皙，黑长直齐肩发发尾微内扣，浅米色通勤衬衫，高腰深灰西装裤，小白鞋，银色细款手表。Create a smooth transition from the first keyframe to the second keyframe, maintaining character identity, consistent camera angle, and natural motion between scenes. Transition: from seated position looking at laptop screen → to standing position ready to leave. From laptop open and glowing on desk → to laptop closed on desk. From canvas bag hanging on chair side → to canvas bag slung on shoulder. From hands resting on keyboard → to hands free at sides. From body facing desk forward → to body turned sideways preparing to walk away. The laptop remains on the desk throughout, only the screen lid closes. voiceover narration, pure voiceover narration only, mouth not moving, no character lip movement, speaking Chinese, says in Chinese \"到点下班，天经地义\", young female voice calm confident tone, NO English speech NO English voice。面部锁定：五官发型服饰全程统一无变化。固定侧面中景机位。",
+  "negative_prompt": "人物跨帧变脸、五官扭曲、多指、手指粘连、肢体穿插、画面频闪、跳帧、光影突变、水印、文字乱码、卡通画风、主体漂移、口型错位、配角乱张嘴、面部斑点、雀斑、皮肤瑕疵、肤色不均、脖子斑点、外国人面孔、欧美面孔、英文对话、非中文语音、表情过度夸张、语气机械、说话生硬、lip movement, mouth movement, character speaking, talking, lips parting, lips opening, mouth opening, speaking mouth, lip sync, talking head, mouth animation, jaw movement, 嘴唇开合、擅自张嘴、口型乱动、凭空新增道具，肢体穿模，镜头剧烈抖动，人物长相变化，服装变化，场景变化，构图变化",
+  "prompt_rule": "EXP-关键帧-002: keyframes模式只描述过渡方式，禁止动作步骤",
+  "video_task_id": "task_zgqOECRH9h3dpnltQcnuHRrCkumtd0cx",
+  "video_path": "/workspace/short_drama/05后整顿职场/shots/ep01_01_keyframes_v2.mp4"
+}

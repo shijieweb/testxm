@@ -1,0 +1,26 @@
+{
+  "A": {
+    "success": true,
+    "url": "https://platform-outputs.agnes-ai.space/images/i2i/task_tM6lZooxLN9UnMmrMCecpCbKTWkeWyRR/output.png",
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/multi_img_A_3img_keyframes_1786545443.jpg",
+    "elapsed": 25.76863718032837
+  },
+  "B": {
+    "success": true,
+    "url": "https://platform-outputs.agnes-ai.space/images/i2i/task_dLRPDH3zwcS6O4R3tRLZ9qiDhstmbK5O/output.png",
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/multi_img_B_3img_dual_char_1786545487.jpg",
+    "elapsed": 24.978957414627075
+  },
+  "C": {
+    "success": true,
+    "url": "https://platform-outputs.agnes-ai.space/images/i2i/task_lr7sYOFCacQahc8aFtzLuuV234bpLG5v/output.png",
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/multi_img_C_2img_baseline_1786545540.jpg",
+    "elapsed": 27.086922883987427
+  },
+  "D": {
+    "success": true,
+    "url": "https://platform-outputs.agnes-ai.space/images/i2i/task_15FA0t9kXj8oRxZVklxyeBAOiY4ZnpWK/output.png",
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/multi_img_D_4img_limit_1786545625.jpg",
+    "elapsed": 72.31291007995605
+  }
+}

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>v21首尾帧转视频测试报告</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; }
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+h1 { text-align: center; margin: 20px 0 10px; font-size: 24px; }
+.meta { text-align: center; color: #888; margin-bottom: 20px; font-size: 14px; }
+.summary { display: flex; justify-content: center; gap: 16px; margin-bottom: 30px; flex-wrap: wrap; }
+.summary-card { background: #fff; border-radius: 8px; padding: 16px 24px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.summary-card .num { font-size: 28px; font-weight: bold; color: #1890ff; }
+.summary-card .label { font-size: 13px; color: #888; margin-top: 4px; }
+.card { background: #fff; border-radius: 10px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); overflow: hidden; }
+.card-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #f0f0f0; }
+.card-header h3 { font-size: 16px; }
+.badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+.badge.success { background: #f6ffed; color: #52c41a; border: 1px solid #b7eb8f; }
+.badge.warn { background: #fffbe6; color: #faad14; border: 1px solid #ffe58f; }
+.badge.failed { background: #fff2f0; color: #ff4d4f; border: 1px solid #ffccc7; }
+.card-body { padding: 20px; }
+.info-box { background: #f6f8fa; border-radius: 6px; padding: 12px; margin-bottom: 16px; font-size: 13px; line-height: 1.8; }
+.rationale-box { background: #e6f7ff; border: 1px solid #91d5ff; border-radius: 6px; padding: 12px; margin-bottom: 16px; font-size: 13px; line-height: 1.8; }
+.rationale-box pre { white-space: pre-wrap; word-break: break-all; font-size: 12px; line-height: 1.8; margin-top: 8px; }
+.prompt-box { background: #fffbe6; border: 1px solid #ffe58f; border-radius: 6px; padding: 12px; margin-bottom: 16px; }
+.prompt-box pre { white-space: pre-wrap; word-break: break-all; font-size: 12px; line-height: 1.8; }
+.frames-row { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.frame-block { flex: 1; min-width: 180px; }
+.frame-label { font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #1890ff; }
+.frame-block img { width: 100%; border-radius: 6px; cursor: pointer; transition: transform 0.2s; }
+.frame-block img:hover { transform: scale(1.02); }
+.frame-info { font-size: 11px; color: #888; margin-top: 4px; }
+.video-block { margin-top: 16px; text-align: center; }
+.video-block video { max-width: 360px; width: 100%; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+th { background: #fafafa; font-weight: bold; }
+.compare-table th { background: #e6f7ff; }
+.compare-table td { text-align: center; }
+.compare-table td:nth-child(1) { text-align: left; }
+.highlight-col { background: #f6ffed; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>v21 首尾帧转视频测试报告</h1>
+<div class="meta">日期: 2026-08-13 | 摔文件动作首尾帧分解 → keyframes模式转视频 | 11个版本迭代对比（最新在最上）</div>
+
+<div class="summary">
+<div class="summary-card"><div class="num">11</div><div class="label">视频版本</div></div>
+<div class="summary-card"><div class="num">2</div><div class="label">关键帧数(官方)</div></div>
+<div class="summary-card"><div class="num">5s</div><div class="label">最终时长</div></div>
+<div class="summary-card"><div class="num">121</div><div class="label">帧数</div></div>
+</div>
+
+<!-- 版本对比总表 -->
+<div class="card">
+<div class="card-header"><h3>版本迭代对比总表</h3></div>
+<div class="card-body">
+<div style="overflow-x:auto;">
+<table class="compare-table">
+<tr><th>维度</th><th>v10</th><th>v9</th><th>v8</th><th>v7</th><th>v6</th><th>v5</th><th>v4fix</th><th>v4</th><th>v3</th><th>v2</th><th>v1</th></tr>
+<tr><td><strong>帧数</strong></td><td>2帧</td><td>2帧</td><td>2帧</td><td>2帧</td><td>2帧</td><td>3帧</td><td>3帧</td><td>3帧</td><td>2帧</td><td>2帧</td><td>2帧</td></tr>
+<tr><td><strong>时长</strong></td><td>5秒</td><td>5秒</td><td>5秒</td><td>5秒</td><td>5秒</td><td>5秒</td><td>5秒</td><td>5秒</td><td>3.4秒</td><td>5秒</td><td>5秒</td></tr>
+<tr><td><strong>Prompt</strong></td><td>中文增强版</td><td>中文按规则</td><td>按规则自写</td><td>官方curl原话</td><td>官方词+自加</td><td>官方词+自加</td><td>自写25行</td><td>自写25行</td><td>自写20行</td><td>自写20行</td><td>自写8行</td></tr>
+<tr><td><strong>负面词</strong></td><td>无</td><td>无</td><td>无</td><td>无</td><td>7个</td><td>7个</td><td>23个</td><td>23个</td><td>20个</td><td>18个</td><td>10个</td></tr>
+<tr><td><strong>问题</strong></td><td>待评估</td><td>待评估</td><td>待评估</td><td>照搬非理解</td><td>有自加句</td><td>3帧非官方</td><td>文件被抛出</td><td>文件被抛出</td><td>时长不够</td><td>拖沓</td><td>机械僵硬</td></tr>
+
+</table>
+</div>
+</div>
+</div>
+
+
+<!-- ========== v10 ========== -->
+<div class="card">
+<div class="card-header"><h3>v10：中文prompt增强版-过渡关系+运动/稳定元素（2帧5秒）</h3><span class="badge success">最新版本</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【在v9基础上增加过渡关系描述】
+老板要求：清晰描述关键帧之间的过渡关系，描述哪些内容应该运动，以及哪些关键主体元素应该保持稳定。
+
+【v9 vs v10对比】
+v9: "在关键帧之间生成平滑流畅的过渡，全程保持角色面部特征一致、服装穿着一致、办公场景不变，手臂动作自然连贯"
+v10: "在关键帧之间生成平滑流畅的过渡。运动元素：文件夹从人物手中移动至桌面、散落的纸张自然飘动；稳定元素：两位角色的面部特征、服装穿着、发型、办公桌椅位置、玻璃隔断场景布局全程保持一致。运动与稳定之间过渡自然连贯"
+
+【改进点】
+1. 明确区分"运动元素"和"稳定元素"两类
+2. 运动元素：文件夹从手中→桌面、纸张飘动（具体物体运动方向）
+3. 稳定元素：面部+服装+发型+桌椅+场景布局（比v9更细，增加了发型和桌椅位置）
+4. 末尾点明"运动与稳定之间过渡自然连贯"（过渡关系总结）
+
+【仍遵循官方规则】
+- 不加节奏词（无slow/fast）
+- 不加运镜指令（无手持/下沉）
+- 不加物理细节（无长发飘动/衬衫扬起）
+- 只描述过渡方式和一致性，不描述具体动作步骤</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>在关键帧之间生成平滑流畅的过渡。运动元素：文件夹从人物手中移动至桌面、散落的纸张自然飘动；稳定元素：两位角色的面部特征、服装穿着、发型、办公桌椅位置、玻璃隔断场景布局全程保持一致。运动与稳定之间过渡自然连贯</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_v10_transition_prompt_1786626137.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v9 ========== -->
+<div class="card">
+<div class="card-header"><h3>v9：中文prompt按官方规则（2帧5秒）</h3><span class="badge warn">中文版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【用中文按官方规则写prompt】
+官方规则提取：
+1. 只描述过渡方式（smooth transition between keyframes）
+2. 维持一致性（maintaining visual consistency / character identity）
+3. 自然运动（natural motion）
+4. 不描述具体动作步骤
+5. 不加节奏词、运镜指令、物理细节
+
+【中文prompt对照】
+官方: "smooth cinematic transition between the keyframes, maintaining visual consistency"
+v9:  "在关键帧之间生成平滑流畅的过渡，全程保持角色面部特征一致、服装穿着一致、办公场景不变，手臂动作自然连贯"
+
+【与v8对比】
+v8英文: "Generate a smooth cinematic transition between the keyframes, maintaining character identity, consistent clothing, office environment, and natural arm motion throughout"
+v9中文: "在关键帧之间生成平滑流畅的过渡，全程保持角色面部特征一致、服装穿着一致、办公场景不变，手臂动作自然连贯"
+差异: 语言从英文→中文，内容规则完全一致</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>在关键帧之间生成平滑流畅的过渡，全程保持角色面部特征一致、服装穿着一致、办公场景不变，手臂动作自然连贯</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_v9_chinese_prompt_1786625339.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v8 ========== -->
+<div class="card">
+<div class="card-header"><h3>v8：按官方规则写自己的prompt（2帧5秒）</h3><span class="badge warn">英文版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【理解官方prompt规则】
+从官方两条示例中提取的规则：
+1. 只描述过渡方式（smooth transition between the keyframes）
+2. 维持一致性（maintaining visual consistency / character identity / consistent camera angle）
+3. 自然运动（natural motion / natural camera movement）
+4. 不描述具体动作步骤（帧间差异已定义动作）
+5. 不加节奏词（无slow/fast/tense）
+6. 不加运镜指令（无"手持微晃""镜头下沉"）
+7. 不加物理细节（无"长发飘动""衬衫扬起"）
+
+【按规则写自己的prompt】
+把官方的"visual consistency"具体化为"character identity, consistent clothing, office environment"
+把"natural camera movement"改为"natural arm motion"（场景重点是手臂动作自然）
+遵循规则：不加节奏词、不加运镜、不加物理细节、不加负面词
+
+【Prompt规则对比】
+官方示例: "Generate a smooth cinematic transition between the keyframes, maintaining visual consistency and natural camera movement"
+v8自写:  "Generate a smooth cinematic transition between the keyframes, maintaining character identity, consistent clothing, office environment, and natural arm motion throughout"
+差异: visual consistency → character identity + clothing + environment
+     natural camera movement → natural arm motion</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes, maintaining character identity, consistent clothing, office environment, and natural arm motion throughout</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_v8_custom_prompt_1786619671.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v7 ========== -->
+<div class="card">
+<div class="card-header"><h3>v7：官方curl原话prompt（2帧5秒）</h3><span class="badge warn">照搬版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【直接使用官方curl示例prompt】
+prompt: "Generate a smooth cinematic transition between the keyframes, maintaining visual consistency and natural camera movement"
+
+【问题】
+老板指出：不是照搬官方prompt，而是要理解官方的规则意思，改成自己的提示词</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes, maintaining visual consistency and natural camera movement</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_v7_official_curl_1786618468.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v6 ========== -->
+<div class="card">
+<div class="card-header"><h3>v6：官方推荐+自加句（2帧5秒）</h3><span class="badge warn">改进版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【使用官方推荐写法+自加约束】
+官方推荐: "smooth cinematic transition between the keyframes, maintaining visual consistency"
+自加: "and natural camera movement, character identity preservation, consistent clothing details"
+
+【问题】
+自加了camera movement和character identity等描述，可能过度约束</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes, maintaining visual consistency and natural camera movement, character identity preservation, consistent clothing details</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_2frame_official_1786617805.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v5 ========== -->
+<div class="card">
+<div class="card-header"><h3>v5：官方推荐写法（3帧5秒）</h3><span class="badge warn">3帧版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【官方推荐写法+3帧】
+prompt: "Generate a smooth cinematic transition between the keyframes, maintaining visual consistency"
+
+【问题】
+官方推荐首尾帧是2帧，这里用了3帧（首+中+尾），不符合官方推荐模式</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes, maintaining visual consistency</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">中间帧</div><img src="../../assets/test_multi_img/v21_mid_1786613059184.jpg" loading="lazy" ><div class="frame-info">v21_mid_1786613059184.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_3frame_video_1786615353.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v4fix ========== -->
+<div class="card">
+<div class="card-header"><h3>v4修正：3帧5秒（文件不被抛出）</h3><span class="badge warn">修正版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【v4修正版】
+在v4基础上修正了文件抛出问题，调整了prompt中的物理描述</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes. The man in a dark suit forcefully slams a folder onto the desk in front of the woman, maintaining character identity, consistent clothing, office environment. The motion should be natural and continuous.</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">中间帧</div><img src="../../assets/test_multi_img/v21_mid_1786613059184.jpg" loading="lazy" ><div class="frame-info">v21_mid_1786613059184.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_3frame_video_1786614660.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v4 ========== -->
+<div class="card">
+<div class="card-header"><h3>v4：3帧5秒（动作详细描述）</h3><span class="badge warn">3帧版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【3帧+详细动作描述】
+加入了详细动作步骤描述和大量负面词
+
+【问题】
+文件被抛出画面，动作过度</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes. The man in a dark suit forcefully slams a folder onto the desk in front of the woman. The folder should stay on the desk. Maintain character identity, consistent clothing, office environment.</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">中间帧</div><img src="../../assets/test_multi_img/v21_mid_1786613059184.jpg" loading="lazy" ><div class="frame-info">v21_mid_1786613059184.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_3frame_video_1786613463.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v3 ========== -->
+<div class="card">
+<div class="card-header"><h3>v3：2帧3.4秒（时长不足）</h3><span class="badge failed">短版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【2帧但时长仅3.4秒】
+帧数81帧/24fps = 3.4秒，时长不足无法完整展现动作</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes. The man slams a folder onto the desk. Maintain character identity and office environment.</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_keyframe_video_1786611866.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v2 ========== -->
+<div class="card">
+<div class="card-header"><h3>v2：2帧5秒（自写20行prompt）</h3><span class="badge warn">改进版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【v1基础上增加prompt描述】
+从8行扩展到20行，增加动作细节和负面词
+
+【问题】
+动作拖沓，不够干脆</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth cinematic transition between the keyframes. The man in a dark suit forcefully places a folder on the desk. The woman reacts with surprise. Maintain character identity, consistent clothing, office environment. Natural motion.</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_keyframe_video_1786611521.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+<!-- ========== v1 ========== -->
+<div class="card">
+<div class="card-header"><h3>v1：2帧5秒（自写8行prompt）</h3><span class="badge failed">初版</span></div>
+<div class="card-body">
+<div class="rationale-box">
+<details open><summary><strong>设计思路</strong></summary>
+<pre>【初版：简单prompt】
+仅8行prompt，10个负面词
+
+【问题】
+动作机械僵硬，不自然</pre>
+</details>
+</div>
+<div class="prompt-box"><strong>Prompt（完整）:</strong><pre>Generate a smooth transition between the keyframes. The man slams a folder on the desk. Maintain character identity.</pre></div>
+
+<div class="frames-row">
+<div class="frame-block"><div class="frame-label">首帧</div><img src="../../assets/test_multi_img/v21_1786609876905.jpg" loading="lazy" ><div class="frame-info">v21_1786609876905.jpg</div></div>
+<div class="frame-block"><div class="frame-label">尾帧</div><img src="../../assets/test_multi_img/v21_1786609901931.jpg" loading="lazy" ><div class="frame-info">v21_1786609901931.jpg</div></div>
+</div>
+
+<div class="video-block">
+<video controls preload="metadata" width="360">
+<source src="../../assets/test_multi_img/v21_keyframe_video_1786610853.mp4" type="video/mp4">
+您的浏览器不支持视频播放。
+</video>
+</div>
+</div>
+</div>
+
+<!-- 演变记录 -->
+<div class="card">
+<div class="card-header"><h3>版本演变记录</h3></div>
+<div class="card-body">
+<table>
+<tr><th>版本</th><th>策略</th><th>问题/调整原因</th><th>下一步</th></tr>
+<tr><td>v1</td><td>初版基线</td><td>简单prompt测试</td><td>→v2扩展描述</td></tr>
+<tr><td>v2</td><td>扩展prompt</td><td>v1基础上增加描述</td><td>→v3调帧数</td></tr>
+<tr><td>v3</td><td>2帧短时长</td><td>81帧仅3.4秒不够</td><td>→v4加帧数</td></tr>
+<tr><td>v4</td><td>3帧详细动作</td><td>加详细动作步骤+大量负面词</td><td>→v4fix修正</td></tr>
+<tr><td>v4fix</td><td>3帧修正版</td><td>修正v4文件抛出问题</td><td>→v5官方推荐词</td></tr>
+<tr><td>v5</td><td>3帧官方推荐词</td><td>尝试3帧但官方推荐2帧</td><td>→v6改回2帧</td></tr>
+<tr><td>v6</td><td>官方词+自加约束</td><td>在官方基础上加了character identity等</td><td>→v7纯官方curl</td></tr>
+<tr><td>v7</td><td>照搬官方curl原话</td><td>老板指出要理解规则，不是照搬</td><td>→v8按规则自写</td></tr>
+<tr><td>v8</td><td>按官方规则自写prompt</td><td>老板指出要理解规则，不是照搬</td><td>→v9中文版对比</td></tr>
+<tr><td>v9</td><td>中文prompt按规则</td><td>老板要求用中文prompt测试，验证中文与英文效果差异</td><td>→v10增强过渡关系</td></tr>
+<tr><td>v10</td><td>中文prompt增强-过渡关系</td><td>老板要求增加运动/稳定元素描述</td><td>待老板反馈</td></tr>
+
+</table>
+</div>
+</div>
+
+</div>
+</body>
+</html>

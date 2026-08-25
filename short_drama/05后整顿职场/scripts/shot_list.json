@@ -1,0 +1,112 @@
+{
+  "project": "05后整顿职场：绝不加班",
+  "format": "9:16竖屏",
+  "total_duration_estimate": "50s",
+  "shots": [
+    {
+      "id": "S01",
+      "duration_sec": 6,
+      "description": "女主关电脑、拎包、站起准备走",
+      "character": "女主（林小满）",
+      "scene": "办公区工位",
+      "shot_type": "侧面中景",
+      "camera": "固定侧面机位",
+      "action": "手指点击鼠标关闭电脑，拉开抽屉拿包，起身",
+      "mood": "平静自然",
+      "audio": "环境音：键盘声、办公室白噪音",
+      "ref_image": "assets/characters/lead_female_ref.png"
+    },
+    {
+      "id": "S02",
+      "duration_sec": 5,
+      "description": "张总从办公室出来叫住她",
+      "character": "张总",
+      "scene": "经理办公室门口",
+      "shot_type": "背面跟拍→正面",
+      "camera": "跟拍转正面",
+      "action": "张总推门走出，抬手叫住女主",
+      "mood": "突然紧张",
+      "audio": "脚步声",
+      "ref_image": "assets/characters/boss_ref.png"
+    },
+    {
+      "id": "S03",
+      "duration_sec": 8,
+      "description": "张总居高临下施压：年轻人，加个班怎么了",
+      "character": "张总",
+      "scene": "办公区过道",
+      "shot_type": "仰拍→俯拍",
+      "camera": "低机位仰拍张总，切高机位俯拍女主",
+      "action": "张总双手叉腰，俯视女主",
+      "mood": "压迫感",
+      "audio": "张总画外音",
+      "ref_image": "assets/characters/boss_ref.png"
+    },
+    {
+      "id": "S04",
+      "duration_sec": 7,
+      "description": "女主冷静直视：我的工作做完了，加班没有意义",
+      "character": "女主（林小满）",
+      "scene": "办公区过道",
+      "shot_type": "正面特写",
+      "camera": "固定正面机位",
+      "action": "女主直视镜头，嘴唇紧闭，眼神坚定",
+      "mood": "不卑不亢",
+      "audio": "女主画外音（分离TTS，嘴唇不张）",
+      "ref_image": "assets/characters/lead_female_ref.png",
+      "critical_note": "嘴唇全程紧闭，仅眼神传递情绪"
+    },
+    {
+      "id": "S05",
+      "duration_sec": 6,
+      "description": "张总脸色微变，试图再说什么",
+      "character": "张总",
+      "scene": "办公区过道",
+      "shot_type": "侧面特写",
+      "camera": "固定侧面机位",
+      "action": "张总嘴角抽动，表情尴尬",
+      "mood": "恼羞成怒→无言以对",
+      "audio": "沉默2秒+环境音",
+      "ref_image": "assets/characters/boss_ref.png"
+    },
+    {
+      "id": "S06",
+      "duration_sec": 6,
+      "description": "女主转身，拿起背包，大步走向大门",
+      "character": "女主（林小满）",
+      "scene": "办公区→走廊",
+      "shot_type": "背面跟拍",
+      "camera": "跟随拍摄，固定距离",
+      "action": "女主转身，背包甩上肩，大步走开",
+      "mood": "从容决绝",
+      "audio": "脚步声渐远",
+      "ref_image": "assets/characters/lead_female_ref.png"
+    },
+    {
+      "id": "S07",
+      "duration_sec": 7,
+      "description": "女主推开大门，夕阳照在脸上，微微一笑",
+      "character": "女主（林小满）",
+      "scene": "公司大门",
+      "shot_type": "正面中景",
+      "camera": "固定正面机位",
+      "action": "推开门，逆光中侧脸微笑",
+      "mood": "自由解脱",
+      "audio": "风声+门铃声",
+      "ref_image": "assets/characters/lead_female_ref.png"
+    },
+    {
+      "id": "S08",
+      "duration_sec": 5,
+      "description": "空镜：办公区，时钟指向18:15，张总愣在原地",
+      "character": "无",
+      "scene": "办公区远景",
+      "shot_type": "远景固定",
+      "camera": "固定机位",
+      "action": "远景展示空旷办公区，张总站在原地",
+      "mood": "讽刺对比",
+      "audio": "时钟滴答声",
+      "ref_image": "assets/scenes/office_panorama.png"
+    }
+  ]
+}

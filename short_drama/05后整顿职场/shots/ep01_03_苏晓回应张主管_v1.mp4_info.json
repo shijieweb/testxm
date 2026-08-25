@@ -1,0 +1,10 @@
+{
+  "shot_id": "03",
+  "name": "苏晓回应张主管",
+  "duration_sec": 10,
+  "num_frames": 241,
+  "scene_image_url": "https://platform-outputs.agnes-ai.space/images/t2i/059126e294c04aacb716d76bdf05777b.png",
+  "video_url": "https://platform-outputs.agnes-ai.space/videos/agnes-video-v2.0/task_rBcgs3Au4HpG5Qs83Hv9zoYmtprdZAeO.mp4",
+  "output_path": "/workspace/short_drama/05后整顿职场/shots/ep01_03_苏晓回应张主管_v1.mp4",
+  "success": true
+}

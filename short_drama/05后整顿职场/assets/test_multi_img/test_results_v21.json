@@ -1,0 +1,127 @@
+{
+  "version": "v21",
+  "date": "2026-08-13",
+  "description": "首尾帧动作分解——摔文件（v3修正：明确角色与桌子的空间物理关系）",
+  "results": [
+    {
+      "id": "M1",
+      "name": "摔文件首尾帧(标准物理动作)",
+      "action": "女性角色A将文件夹从胸前高度摔在办公桌上",
+      "issue_ref": "经验#004角度对齐+#015动作力度+#019蓄势概念偏差",
+      "fix_strategy": "prompt锁定侧身角度+动作幅度限制在胸前高度+首帧用弯曲后拉替代高举",
+      "design_rationale": "【为什么这么设计】\n1. 角度锁定：双人参考图是纯侧面90°，prompt明确要求\"从正侧面拍摄\"\"保持侧身角度\"。\n2. 动作幅度：正常人摔文件是从肩高往下摔，不会举过头顶。\n   首帧描述\"右臂弯曲手持文件夹于肩侧\"。\n3. 首帧蓄势：用\"右臂弯曲、身体微后仰\"替代\"高举\"，避免模型理解成\"已到达最高点\"。\n4. 【本版核心修复】空间物理关系：上一版角色离开了桌子，是因为prompt没有锚定角色与桌子的位置。\n   本版明确写\"女性角色A站在办公桌正前方面对桌子\"\"右手在桌面上方持文件夹\"，\n   确保角色始终在桌子旁边，手在桌面上方活动。\n5. 尾帧执行细节导向：描述\"右手已将文件夹摔在面前的桌面上\"。\n",
+      "checks": {
+        "first_frame_angle": "首帧：纯侧面90°（非正面/3/4）",
+        "first_frame_spatial": "首帧：A站在桌前紧挨桌子（不离开桌子）",
+        "first_frame_action": "首帧：A右臂弯曲持文件夹于肩侧（非高举过头顶）",
+        "first_frame_expression": "首帧：A表情严肃，B微皱眉",
+        "last_frame_angle": "尾帧：纯侧面90°（非正面/3/4）",
+        "last_frame_spatial": "尾帧：A仍在桌前（不离开桌子）",
+        "last_frame_action": "尾帧：A前倾，文件夹已摔在面前桌上",
+        "last_frame_papers": "尾帧：几张纸张弹出散落",
+        "last_frame_expression": "尾帧：B震惊后退",
+        "character_consistency": "两帧角色面部/服装一致",
+        "scene_consistency": "两帧场景相同(同一办公区)",
+        "action_progression": "首帧→尾帧动作连贯合理（肩高→桌面）"
+      },
+      "frames": {
+        "duo_ref": {
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_duo_side_1786604234.jpg",
+          "info": {
+            "resolution": "736x1312px",
+            "size": "783KB"
+          }
+        },
+        "scene_ref": {
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_L2_1786605833460.jpg",
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1359KB"
+          }
+        },
+        "first_frame": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v21_1786609876905.jpg",
+          "prompt": "将第一张图作为角色参考，第二张图作为场景参考，从正侧面拍摄保持与参考图相同的侧身角度，生成一张女性角色A站在办公桌正前方面对桌子的起始动作画面，女性角色A紧挨办公桌站立，右臂弯曲手持黑色文件夹于右肩高度且文件夹位于桌面上方，身体微微后仰蓄力准备向下摔文件夹，表情严肃紧绷看向桌面方向，男性角色B站在桌子另一侧侧面站立微微皱眉看着女性角色A，保留角色的面部特征和服装穿着，使用自然室内光照和电影级写实构图。",
+          "elapsed": 20.069928646087646,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1123KB"
+          }
+        },
+        "last_frame": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v21_1786609901931.jpg",
+          "prompt": "将第一张图作为角色参考，第二张图作为场景参考，从正侧面拍摄保持与参考图相同的侧身角度，生成一张女性角色A站在办公桌正前方将文件夹重重摔在面前桌面上的结束动作画面，女性角色A紧挨办公桌站立身体前倾，右手已将黑色文件夹摔在面前的桌面上，黑色文件夹落在桌上，几张白色纸张从文件夹中弹出散落在桌面上，男性角色B站在桌子另一侧微微后退震惊地看着桌面，保留角色的面部特征和服装穿着，使用自然室内光照和电影级写实构图。",
+          "elapsed": 19.071351289749146,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1141KB"
+          }
+        }
+      },
+      "success": true
+    },
+    {
+      "id": "M2",
+      "name": "摔文件首尾帧(效果导向尾帧)",
+      "action": "女性角色A将文件夹从胸前高度摔在办公桌上（尾帧效果导向）",
+      "issue_ref": "经验#015+#018 效果导向>执行细节",
+      "fix_strategy": "首帧与M1相同（角度锁定+动作合理），尾帧改用效果导向描述",
+      "design_rationale": "【为什么这么设计】\n1. 与M1对照组：首帧完全相同，只改尾帧的prompt写法，对比效果导向vs执行细节。\n2. 尾帧效果导向：不写\"右手摔下\"（执行细节），改写\"文件夹猛烈撞击桌面、\n   纸张飞散弹出、桌面有震动感\"（结果效果），让模型自行选择最佳动态姿势。\n3. 角度锁定和动作幅度与M1一致，确保唯一的变量是尾帧的prompt写法。\n4. 【本版核心修复】空间物理关系：与M1一样，明确\"站在办公桌正前方\"\"紧挨办公桌\"，\n   确保角色不离开桌子。尾帧也写\"面前的桌面\"锚定空间。\n",
+      "checks": {
+        "first_frame_angle": "首帧：纯侧面90°（非正面/3/4）",
+        "first_frame_spatial": "首帧：A站在桌前紧挨桌子（不离开桌子）",
+        "first_frame_action": "首帧：A右臂弯曲持文件夹于肩侧（非高举过头顶）",
+        "first_frame_expression": "首帧：A表情严肃，B微皱眉",
+        "last_frame_angle": "尾帧：纯侧面90°（非正面/3/4）",
+        "last_frame_spatial": "尾帧：A仍在桌前（不离开桌子）",
+        "last_frame_action": "尾帧：A前倾，文件夹已撞击面前桌面",
+        "last_frame_papers": "尾帧：纸张飞散弹出（效果导向）",
+        "last_frame_impact": "尾帧：桌面有震动冲击感",
+        "last_frame_expression": "尾帧：B后退震惊",
+        "character_consistency": "两帧角色面部/服装一致",
+        "scene_consistency": "两帧场景相同",
+        "action_progression": "首帧→尾帧动作连贯合理（肩高→桌面）",
+        "vs_m1": "与M1对比：尾帧效果导向是否优于执行细节"
+      },
+      "frames": {
+        "duo_ref": {
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_duo_side_1786604234.jpg",
+          "info": {
+            "resolution": "736x1312px",
+            "size": "783KB"
+          }
+        },
+        "scene_ref": {
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/tmp_L2_1786605833460.jpg",
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1359KB"
+          }
+        },
+        "first_frame": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v21_1786609925797.jpg",
+          "prompt": "将第一张图作为角色参考，第二张图作为场景参考，从正侧面拍摄保持与参考图相同的侧身角度，生成一张女性角色A站在办公桌正前方面对桌子的起始动作画面，女性角色A紧挨办公桌站立，右臂弯曲手持黑色文件夹于右肩高度且文件夹位于桌面上方，身体微微后仰蓄力准备向下摔文件夹，表情严肃紧绷看向桌面方向，男性角色B站在桌子另一侧侧面站立微微皱眉看着女性角色A，保留角色的面部特征和服装穿着，使用自然室内光照和电影级写实构图。",
+          "elapsed": 16.32251811027527,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1143KB"
+          }
+        },
+        "last_frame": {
+          "success": true,
+          "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v21_1786609947120.jpg",
+          "prompt": "将第一张图作为角色参考，第二张图作为场景参考，从正侧面拍摄保持与参考图相同的侧身角度，生成一张女性角色A站在办公桌正前方黑色文件夹猛烈撞击面前桌面的爆发瞬间画面，女性角色A紧挨办公桌站立身体前倾，文件夹已落在面前的桌面上产生撞击效果，白色纸张从撞击处飞散弹出到空中，桌面有震动感，女性角色A右手掌按在文件夹上，男性角色B站在桌子另一侧后退半步震惊地看着飞散的纸张，保留角色的面部特征和服装穿着，使用自然室内光照和电影级写实构图。",
+          "elapsed": 15.337971687316895,
+          "info": {
+            "resolution": "736x1312px",
+            "size": "1204KB"
+          }
+        }
+      },
+      "success": true
+    }
+  ]
+}

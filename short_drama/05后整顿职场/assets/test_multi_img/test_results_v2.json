@@ -1,0 +1,22 @@
+{
+  "A_v2": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v2_A_official_structure_1786546174.jpg",
+    "elapsed": 32.02526140213013
+  },
+  "B_v2": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v2_B_official_structure_1786546211.jpg",
+    "elapsed": 26.77192759513855
+  },
+  "C_v2": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v2_C_official_structure_1786546246.jpg",
+    "elapsed": 21.966233253479004
+  },
+  "D_v2": {
+    "success": true,
+    "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v2_D_official_style_1786546285.jpg",
+    "elapsed": 26.396034955978394
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "version": "v9",
+  "timestamp": "2026-08-12 16:22:10",
+  "formula": "面部特写+面部特写+场景 3图合成",
+  "results": [
+    {
+      "test": "U",
+      "desc": "三图 拦住 强约束+负面词",
+      "success": false,
+      "file": null,
+      "elapsed": 300.1557445526123
+    },
+    {
+      "test": "V",
+      "desc": "三图 对峙 强约束+负面词",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v9_V_三图_对峙_强约束_1786551696.jpg",
+      "elapsed": 26.973936557769775
+    },
+    {
+      "test": "W",
+      "desc": "三图 拦住 强约束无负面词（对照）",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v9_W_三图_拦住_无负面词_1786551730.jpg",
+      "elapsed": 25.467438220977783
+    }
+  ]
+}

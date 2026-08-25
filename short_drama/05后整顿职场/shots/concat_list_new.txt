@@ -1,0 +1,5 @@
+file '/workspace/short_drama/05后整顿职场/shots/ep01_01_苏晓关电脑下班_v1.mp4'
+file '/workspace/short_drama/05后整顿职场/shots/ep01_02_张主管拦下苏晓_v1.mp4'
+file '/workspace/short_drama/05后整顿职场/shots/ep01_03_苏晓回应张主管_v1.mp4'
+file '/workspace/short_drama/05后整顿职场/shots/ep01_04_苏晓拿出手机_v1.mp4'
+file '/workspace/short_drama/05后整顿职场/shots/ep01_05_李姐出场收尾_v1.mp4'

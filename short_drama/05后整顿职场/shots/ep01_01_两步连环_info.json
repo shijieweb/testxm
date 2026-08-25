@@ -1,0 +1,38 @@
+{
+  "scheme": "两步连环生成 + 分镜拆分",
+  "shot_01A": {
+    "name": "镜头01-A：合上电脑",
+    "first_frame": {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/28b8be298cc544cf8668d05942000e28.png",
+      "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01_首帧_连环v3.jpg",
+      "description": "苏晓坐着，电脑打开亮屏，包在椅侧"
+    },
+    "last_frame": {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/7d0ce89e3bb14d9fa914e076a8f6aadb.png",
+      "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01A_尾帧_坐着电脑合_连环.jpg",
+      "ref_image": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01_首帧_连环v3.jpg",
+      "description": "苏晓坐着，电脑合上，包在椅侧（只变电脑状态）",
+      "prompt": "Based on the reference image, keep everything exactly the same: same scene layout, same camera angle, same lighting, same character pose, same character sitting position, same canvas bag hanging on chair side. Only ONE change occurs: the laptop computer transitions from open screen to fully closed. The laptop lid is now completely shut down, folded closed, clamshell closed, screen no longer visible, screen light turned off, the closed laptop lies flat on the desk surface. The character's hands are now resting on top of the closed laptop lid, not on the keyboard. The character remains seated in the same position, same expression, same posture. The canvas bag remains hanging on the chair side, unchanged. 年轻女生苏晓，鹅蛋脸，杏眼明亮，鼻梁秀气，唇形饱满，肤色白皙，黑长直齐肩发发尾微内扣，浅米色通勤衬衫，高腰深灰西装裤，小白鞋，银色细款手表，仍坐在工位椅上，双手放在已合上的笔记本电脑上。表情从专注变为平静，微微满意。现代都市写实风格，明亮办公室冷白自然光，均匀柔和室内打光，真实皮肤肌理，清晰自然面部细节，无过度磨皮，9:16竖屏构图，人物主体完整不裁切，画面无多余文字水印，生活化职场场景质感。this is the ending frame, final state after action completed"
+    },
+    "action": "坐着合上电脑（只变电脑开→合）"
+  },
+  "shot_01B": {
+    "name": "镜头01-B：起身走人",
+    "first_frame": {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/7d0ce89e3bb14d9fa914e076a8f6aadb.png",
+      "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01A_尾帧_坐着电脑合_连环.jpg",
+      "description": "复用01-A尾帧：苏晓坐着，电脑合上，包在椅侧"
+    },
+    "last_frame": {
+      "url": "https://platform-outputs.agnes-ai.space/images/t2i/eccce405a6f64e189945b98b8fcc43b4.png",
+      "local_path": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01B_尾帧_站起包挎肩_连环.jpg",
+      "ref_image": "/workspace/short_drama/05后整顿职场/assets/scenes/ep01_01A_尾帧_坐着电脑合_连环.jpg",
+      "description": "苏晓站立，电脑合上留桌面，包挎肩上",
+      "prompt": "Based on the reference image, keep the same scene layout, camera angle, lighting direction, and background. The closed laptop remains closed on the desk, unchanged. Only the following changes occur: - Character pose: from seated position → to standing position, ready to leave. - Canvas bag: from hanging on chair side → to slung on shoulder, strap across shoulder. - Hands: from resting on closed laptop → to free at sides. - Body direction: from facing desk forward → to turned sideways preparing to walk away. The closed laptop remains on the desk throughout, do not open it. The desk, chair, background, and lighting remain unchanged. 年轻女生苏晓，鹅蛋脸，杏眼明亮，鼻梁秀气，唇形饱满，肤色白皙，黑长直齐肩发发尾微内扣，浅米色通勤衬衫，高腰深灰西装裤，小白鞋，银色细款手表，已从座位上站起来，身体侧向，微微前倾，准备转身离开。帆布单肩包已挎在肩上，包带跨过肩膀。表情平静自信，眼神坚定看向前方。现代都市写实风格，明亮办公室冷白自然光，均匀柔和室内打光，真实皮肤肌理，清晰自然面部细节，无过度磨皮，9:16竖屏构图，人物主体完整不裁切，画面无多余文字水印，生活化职场场景质感。this is the ending frame, final state after action completed"
+    },
+    "action": "起身拿包走人（变坐→站+包椅侧→肩上）"
+  },
+  "chain": "角色参考图 → 首帧A(坐+电脑开) → 尾帧A(坐+电脑合) → 尾帧B(站+包挎肩)",
+  "status": "等待老板确认三帧",
+  "next_step": "确认后分别用01-A和01-B的首尾帧做keyframes视频生成"
+}

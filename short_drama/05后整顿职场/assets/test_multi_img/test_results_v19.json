@@ -1,0 +1,67 @@
+{
+  "version": "v19",
+  "timestamp": "2026-08-13 07:01:14",
+  "part1_duo": [
+    {
+      "angle": "side",
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_duo_side_1786604234.jpg",
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，生成一张两个角色侧面站立的全身照，角色A面向右侧角色B面向左侧，两人侧身面对面，保留两个角色的面部特征、身份和服装穿着，纯白色背景无任何多余元素，使用均匀柔光照明和写实摄影风格。"
+    },
+    {
+      "angle": "back",
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_duo_back_1786604255.jpg",
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，生成一张两个角色背对镜头的全身照，角色A在前方大步走，角色B在后方伸手想要叫住，保留两个角色的服装穿着和发型，纯白色背景无任何多余元素，使用均匀柔光照明和写实摄影风格。"
+    },
+    {
+      "angle": "front",
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_duo_front_1786604279.jpg",
+      "prompt": "将第一张图作为角色A，第二张图作为角色B，生成一张两个角色并排站立的全身照，保留两个角色的面部特征、身份和服装穿着，纯白色背景无任何多余元素，使用均匀柔光照明和写实摄影风格。"
+    }
+  ],
+  "part1_scene": [
+    {
+      "angle": "hallway_side",
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_scene_hallway_side_1786604342.jpg",
+      "prompt": "现代办公走廊纵深视角，从侧面角度拍摄，两侧玻璃隔断办公室，浅灰色地毯地面，天花板LED灯带，无人，电影级构图，高细节写实摄影风格。"
+    },
+    {
+      "angle": "hallway_back",
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_scene_hallway_back_1786604383.jpg",
+      "prompt": "现代办公走廊，从背后纵深视角拍摄，走廊向前延伸，两侧玻璃隔断办公室，浅灰色地毯地面，天花板LED灯带，无人，电影级构图，高细节写实摄影风格。"
+    },
+    {
+      "angle": "hallway_front",
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_scene_hallway_front_1786604398.jpg",
+      "prompt": "现代办公走廊正面视角，从正面拍摄走廊入口，两侧玻璃隔断办公室，浅灰色地毯地面，天花板LED灯带，无人，电影级构图，高细节写实摄影风格。"
+    }
+  ],
+  "part2_fixes": [
+    {
+      "id": "K1",
+      "desc": "甩文件(站姿修复)",
+      "v16_issue": "H2坐姿+复杂动作失败",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_K1_甩文件_站姿修复_1786604421.jpg",
+      "prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张角色A将文件夹用力拍在桌上发出声响的画面，角色A站立身体前倾动作有力，角色B在旁边震惊地看着，保留角色的面部特征和服装穿着，使用自然室内光照和电影级写实构图。",
+      "elapsed": 17.09448266029358
+    },
+    {
+      "id": "K2",
+      "desc": "转身走开(背影双人图验证)",
+      "v16_issue": "H4正面双人图变成并肩前行",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_K2_走开_背影验证_1786604448.jpg",
+      "prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张角色A背对镜头在走廊中大步向前走的画面，角色B在身后伸手想要叫住她，保留角色的服装穿着和发型，使用自然室内光照和电影级写实构图。",
+      "elapsed": 20.745794534683228
+    },
+    {
+      "id": "K3",
+      "desc": "推门(明确动作主语)",
+      "v16_issue": "H5推门者变成男性",
+      "success": true,
+      "file": "/workspace/short_drama/05后整顿职场/assets/test_multi_img/v19_K3_推门_明确主语_1786604474.jpg",
+      "prompt": "将第一张图作为角色参考，第二张图作为场景参考，生成一张女性角色A推开走廊尽头的玻璃门走出去的画面，女性角色A背对镜头推门，逆光照射下女性角色A嘴角微微上扬露出自信微笑，男性角色B站在后方看着，保留角色的面部特征和服装穿着，使用逆光效果和电影级写实构图。",
+      "elapsed": 19.725376844406128
+    }
+  ]
+}
